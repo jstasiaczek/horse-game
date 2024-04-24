@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://dcxgtelwspw2b"]
+
+[ext_resource type="Script" path="res://scene/factory_hud/recipe.gd" id="1_q845y"]
+[ext_resource type="Texture2D" uid="uid://n5ekmmy5e3pt" path="res://assets/icons/dot.png" id="2_7mr8r"]
+[ext_resource type="FontFile" uid="uid://cialo7t5a5hue" path="res://assets/fonts/Minecraft.ttf" id="2_jq5b4"]
+[ext_resource type="Texture2D" uid="uid://qodmkn6qiotv" path="res://assets/icons/make_button.png" id="2_ljxlx"]
+[ext_resource type="Texture2D" uid="uid://c6bqnoi0si7gp" path="res://assets/icons/make_button-pressed.png" id="3_4awcq"]
+[ext_resource type="Texture2D" uid="uid://1n4vjw2cqo" path="res://assets/icons/make_button-hover.png" id="4_yxqex"]
+[ext_resource type="Texture2D" uid="uid://ddiwk616ni4cl" path="res://assets/icons/make_button_disabled.png" id="7_nbgex"]
+
+[node name="Recipe" type="HBoxContainer"]
+size_flags_vertical = 0
+script = ExtResource("1_q845y")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_7mr8r")
+stretch_mode = 2
+
+[node name="ReciepeDesc" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/normal_font = ExtResource("2_jq5b4")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "sdasdsdadadsdsad"
+
+[node name="MakeButton" type="TextureButton" parent="."]
+layout_mode = 2
+texture_normal = ExtResource("2_ljxlx")
+texture_pressed = ExtResource("3_4awcq")
+texture_hover = ExtResource("4_yxqex")
+
+[node name="DisabledButton" type="TextureRect" parent="."]
+visible = false
+layout_mode = 2
+texture = ExtResource("7_nbgex")
+stretch_mode = 2
+
+[connection signal="pressed" from="MakeButton" to="." method="_on_make_button_pressed"]

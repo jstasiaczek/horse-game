@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://cbkgphmqi2wg7"]
+
+[ext_resource type="Texture2D" uid="uid://bqx0bn7js8is" path="res://assets/ui/buttonLong_brown.png" id="1_63a2v"]
+[ext_resource type="Texture2D" uid="uid://b5yx4mt60fd80" path="res://assets/ui/buttonLong_brown_pressed.png" id="2_coac5"]
+[ext_resource type="Texture2D" uid="uid://chkji8xxi202o" path="res://assets/ui/buttonLong_brown_hover.png" id="3_a5y12"]
+[ext_resource type="LabelSettings" uid="uid://dkq3wlncuhvvb" path="res://assets/mc_smal_text_white.tres" id="4_qc1c3"]
+[ext_resource type="Script" path="res://scene/long_button/long_button.gd" id="4_wrvd4"]
+
+[node name="LongButton" type="TextureButton"]
+texture_normal = ExtResource("1_63a2v")
+texture_pressed = ExtResource("2_coac5")
+texture_hover = ExtResource("3_a5y12")
+script = ExtResource("4_wrvd4")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Collect"
+label_settings = ExtResource("4_qc1c3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="button_down" from="." to="." method="_on_button_down"]
+[connection signal="button_up" from="." to="." method="_on_button_up"]

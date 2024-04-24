@@ -1,0 +1,159 @@
+[gd_scene load_steps=21 format=3 uid="uid://butfoueec6ui0"]
+
+[ext_resource type="Texture2D" uid="uid://btjdbo485gpgo" path="res://assets/MiniWorldSprites/Animals/Horse(32x32).png" id="1_4g6dm"]
+[ext_resource type="Script" path="res://scene/horse/horse.gd" id="2_70uj3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_04e4a"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idn3r"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_plpxc"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1tff"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_saewc"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4l046"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ljvwl"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lo2ra"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y8dbr"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g23k1"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7u5d5"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qcbv4"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h27ki"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_50scm"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0kmy4"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(32, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jhie"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(64, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4ra5"]
+atlas = ExtResource("1_4g6dm")
+region = Rect2(96, 128, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8ku7k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_04e4a")
+}],
+"loop": true,
+"name": &"idile",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idn3r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_plpxc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d1tff")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_saewc")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4l046")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ljvwl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lo2ra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y8dbr")
+}],
+"loop": true,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g23k1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7u5d5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qcbv4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h27ki")
+}],
+"loop": true,
+"name": &"walk_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_50scm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0kmy4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jhie")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4ra5")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]
+
+[node name="Horse" type="AnimatedSprite2D"]
+position = Vector2(143, 119)
+sprite_frames = SubResource("SpriteFrames_8ku7k")
+animation = &"idile"
+autoplay = "idile"
+offset = Vector2(0, -6)
+script = ExtResource("2_70uj3")

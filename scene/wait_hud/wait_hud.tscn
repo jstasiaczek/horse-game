@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7niyw6eroye2"]
+
+[ext_resource type="Script" path="res://scene/wait_hud/wait_hud.gd" id="1_gar5c"]
+[ext_resource type="LabelSettings" uid="uid://d1nwvtodgwtnj" path="res://assets/mc_huge_text_white.tres" id="1_u1ocg"]
+[ext_resource type="LabelSettings" uid="uid://dkq3wlncuhvvb" path="res://assets/mc_smal_text_white.tres" id="2_tudpc"]
+
+[node name="WaitHud" type="Control" groups=["WAIT_HUD"]]
+z_index = 20
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gar5c")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0431373, 0.0431373, 0.0431373, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "One
+Eternity
+Later... "
+label_settings = ExtResource("1_u1ocg")
+
+[node name="timeLabel" type="Label" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "time"
+label_settings = ExtResource("2_tudpc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.15
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

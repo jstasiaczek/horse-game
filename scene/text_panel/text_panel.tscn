@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdjwem2g3dtbj"]
+
+[ext_resource type="StyleBox" uid="uid://dryiaqkpvhny1" path="res://assets/stylebox/window_stylebox.tres" id="1_8485y"]
+[ext_resource type="Script" path="res://scene/text_panel/text_panel.gd" id="2_7yn8x"]
+[ext_resource type="FontFile" uid="uid://cialo7t5a5hue" path="res://assets/fonts/Minecraft.ttf" id="2_raewo"]
+
+[node name="TextPanel" type="Panel"]
+custom_minimum_size = Vector2(150, 35)
+offset_right = 150.0
+offset_bottom = 35.0
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("1_8485y")
+script = ExtResource("2_7yn8x")
+
+[node name="MG" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="RichTextLabel" parent="MG"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("2_raewo")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true

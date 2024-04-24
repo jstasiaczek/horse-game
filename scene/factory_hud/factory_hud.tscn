@@ -1,0 +1,103 @@
+[gd_scene load_steps=6 format=3 uid="uid://vpvrnqtkhjvw"]
+
+[ext_resource type="PackedScene" uid="uid://hgdt3dgeglw2" path="res://scene/wood_panel/wood_panel.tscn" id="1_th0at"]
+[ext_resource type="Script" path="res://scene/factory_hud/factory_hud.gd" id="1_yp28t"]
+[ext_resource type="LabelSettings" uid="uid://ci1knydkctqb7" path="res://scene/factory_hud/mc_title_32_white.tres" id="2_765b3"]
+[ext_resource type="LabelSettings" uid="uid://dkq3wlncuhvvb" path="res://assets/mc_smal_text_white.tres" id="4_ty45c"]
+[ext_resource type="PackedScene" uid="uid://cbkgphmqi2wg7" path="res://scene/long_button/long_button.tscn" id="5_hdjfn"]
+
+[node name="FactoryHud" type="Control" groups=["FACTORY_GUI"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yp28t")
+
+[node name="CC" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WoodPanel" parent="CC" instance=ExtResource("1_th0at")]
+custom_minimum_size = Vector2(400, 500)
+layout_mode = 2
+
+[node name="MG" type="MarginContainer" parent="CC/WoodPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VB" type="VBoxContainer" parent="CC/WoodPanel/MG"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 8
+
+[node name="FactoryTitle" type="Label" parent="CC/WoodPanel/MG/VB"]
+layout_mode = 2
+text = "Factory Title"
+label_settings = ExtResource("2_765b3")
+
+[node name="RecipeContainer" type="VBoxContainer" parent="CC/WoodPanel/MG/VB"]
+layout_mode = 2
+
+[node name="VB2" type="VBoxContainer" parent="CC/WoodPanel/MG"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="LabelQueue" type="Label" parent="CC/WoodPanel/MG/VB2"]
+layout_mode = 2
+text = "Queue"
+label_settings = ExtResource("4_ty45c")
+
+[node name="Queue" type="RichTextLabel" parent="CC/WoodPanel/MG/VB2"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+bbcode_enabled = true
+
+[node name="ProgressBar" type="ProgressBar" parent="CC/WoodPanel/MG/VB2"]
+visible = false
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+max_value = 200.0
+show_percentage = false
+
+[node name="LabelOutput" type="Label" parent="CC/WoodPanel/MG/VB2"]
+layout_mode = 2
+text = "Output"
+label_settings = ExtResource("4_ty45c")
+
+[node name="Output" type="RichTextLabel" parent="CC/WoodPanel/MG/VB2"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+bbcode_enabled = true
+
+[node name="HB" type="HBoxContainer" parent="CC/WoodPanel/MG/VB2"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="CollectButton" parent="CC/WoodPanel/MG/VB2/HB" instance=ExtResource("5_hdjfn")]
+layout_mode = 2
+label_text = "Collect"
+
+[node name="ExitButton" parent="CC/WoodPanel/MG/VB2/HB" instance=ExtResource("5_hdjfn")]
+layout_mode = 2
+button_color = 1
+label_text = "Exit"
+
+[connection signal="pressed" from="CC/WoodPanel/MG/VB2/HB/CollectButton" to="." method="_on_collect_button_pressed"]
+[connection signal="pressed" from="CC/WoodPanel/MG/VB2/HB/ExitButton" to="." method="_on_exit_button_pressed"]
