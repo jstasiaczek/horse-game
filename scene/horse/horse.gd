@@ -45,6 +45,8 @@ func _process(delta):
 		
 	if not has_horse_path():
 		horse_sound.stop()
+		play("idile")
+		tilemap.clear_layer(Types.MAP_LAYERS.NAVIGATE)
 		return
 	update_horse_map_id()
 	var horse_pos: Vector2 = global_position

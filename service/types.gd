@@ -18,7 +18,9 @@ enum POI_TYPES {
 	ORCHARD,
 	WINDMILL,
 	FARM,
-	PORT
+	PORT,
+	EXIT,
+	QUEST
 }
 
 const POI_NAMES: Dictionary = {
@@ -30,6 +32,8 @@ const POI_NAMES: Dictionary = {
 	POI_TYPES.FARM: "Farm",
 	POI_TYPES.PORT: "Port",
 	POI_TYPES.NONE: "",
+	POI_TYPES.QUEST: "Quest",
+	POI_TYPES.EXIT: "Exit"
 }
 
 enum POI_ACTON_TYPE {
@@ -142,7 +146,7 @@ func get_poi_name_by_type(type: POI_TYPES) -> String:
 	return POI_NAMES[type]
 
 class Quest:
-	var type: POI_TYPES = POI_TYPES.NONE
+	var type: POI_TYPES = POI_TYPES.QUEST
 	var action_type: POI_ACTON_TYPE = POI_ACTON_TYPE.QUEST
 	var title: String
 	var desc: String
@@ -161,7 +165,7 @@ func new_quest(title: String, desc: String, input: Array[InventoryItem], finishe
 	return inst
 
 class Exit:
-	var type: POI_TYPES = POI_TYPES.NONE
+	var type: POI_TYPES = POI_TYPES.EXIT
 	var desc: String
 	var action_type: POI_ACTON_TYPE = POI_ACTON_TYPE.EXIT
 

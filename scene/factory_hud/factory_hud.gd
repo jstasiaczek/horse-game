@@ -4,7 +4,7 @@ const RECIPE = preload("res://scene/factory_hud/recipe.tscn")
 @onready var factory_title = $CC/WoodPanel/MG/VB/FactoryTitle
 @onready var queue = $CC/WoodPanel/MG/VB2/Queue
 @onready var output = $CC/WoodPanel/MG/VB2/Output
-@onready var progress_bar = $CC/WoodPanel/MG/VB2/ProgressBar
+@onready var progress_bar = $CC/WoodPanel/MG/VB2/Control/ProgressBar
 
 var id = Vector2i(8,4)
 # Called when the node enters the scene tree for the first time.

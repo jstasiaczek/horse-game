@@ -113,15 +113,15 @@ func handle_hover_cell(event):
 	var tile_data: TileData = tile_map.get_cell_tile_data(Types.MAP_LAYERS.PATH, hover_cell)
 	if tile_data == null:
 		prev_hover_cell = Vector2i.ZERO
-		SignalsService.on_poi_hover.emit(Types.POI_TYPES.NONE)
+		SignalsService.on_poi_hover.emit(Types.POI_TYPES.NONE, hover_cell)
 	else:
 		prev_hover_cell = hover_cell
 		if tile_data.get_custom_data("stable") == true:
 			tile_map.set_cell(Types.MAP_LAYERS.HOVER, prev_hover_cell, 0, Vector2i(9,16))
-			SignalsService.on_poi_hover.emit(GameService.get_poi_by_id(hover_cell).type)
+			SignalsService.on_poi_hover.emit(GameService.get_poi_by_id(hover_cell).type, hover_cell)
 		else:	
 			tile_map.set_cell(Types.MAP_LAYERS.HOVER, prev_hover_cell, 0, Vector2i(9,15))
-			SignalsService.on_poi_hover.emit(Types.POI_TYPES.NONE)
+			SignalsService.on_poi_hover.emit(Types.POI_TYPES.NONE, hover_cell)
 
 func _on_timer_timeout():
 	SignalsService.on_time_tick.emit()

@@ -1,7 +1,7 @@
 extends Node
 
 const MAX_ZOOM: float = 2.0
-const MIN_ZOOM: float = 1.0
+const MIN_ZOOM: float = 1.5
 const MINUTES_ADD_ON_TICK: int = 10
 const GROUP_FACTORY_GUI: String = "FACTORY_GUI"
 const GROUP_WAIT_HUD = "WAIT_HUD"

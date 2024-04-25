@@ -12,7 +12,7 @@ signal on_horse_rested
 
 # map id signals
 signal on_set_target(value: Vector2i)
-signal on_poi_hover(value: Types.POI_TYPES)
+signal on_poi_hover(value: Types.POI_TYPES, id: Vector2i)
 signal on_tile_clicked(id: Vector2i)
 signal on_horse_tile_changed(id: Vector2i)
 signal on_poi_click(id: Vector2i)
