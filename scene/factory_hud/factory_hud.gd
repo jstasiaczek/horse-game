@@ -12,13 +12,19 @@ func _ready():
 	create_recipe_list(id)
 	update_queue_list(id)
 	update_output_list(id)
+	update_progress()
 	update_title()
 	SignalsService.on_factory_queue_update.connect(update_queue_list)
 	SignalsService.on_factory_output_update.connect(update_output_list)
 	SignalsService.on_inventory_update.connect(on_inventory_update)
-	SignalsService.on_time_changed.connect(on_time_changed)
+	SignalsService.on_time_changed.connect(update_progress)
+	SignalsService.on_horse_rested.connect(refresh_recipe_list)
+	SignalsService.on_horse_tired.connect(refresh_recipe_list)
 
-func on_time_changed():
+func refresh_recipe_list():
+	create_recipe_list(id)
+
+func update_progress():
 	var factory = get_factory(id)
 	if factory == null or factory.has_doable_queue() == false:
 		set_progress(factory, true)

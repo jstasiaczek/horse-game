@@ -1,4 +1,5 @@
 extends AnimatedSprite2D
+@onready var horse_sound = $HorseSound
 
 var horse_map_id: Vector2i
 var tilemap: TileMap
@@ -15,9 +16,9 @@ func on_horse_tile_changed(id: Vector2i):
 	if id != target:
 		return
 	var poi = GameService.get_poi_by_id(id)
-	if poi == null or poi.action_type != Types.POI_ACTON_TYPE.FACTORY:
+	if poi == null:
 		return
-	SignalsService.on_factory_click.emit(id)
+	SignalsService.on_poi_click.emit(id)
 
 func on_tilemap_set():
 	tilemap = GameService.get_tilemap()
@@ -43,14 +44,18 @@ func _process(delta):
 		return
 		
 	if not has_horse_path():
+		horse_sound.stop()
 		return
 	update_horse_map_id()
 	var horse_pos: Vector2 = global_position
 	var path: Array[Vector2i] = get_horse_path()
 	if path.is_empty() and horse_pos == next_path_pos:
 		play("idile")
+		horse_sound.stop()
 		tilemap.clear_layer(Types.MAP_LAYERS.NAVIGATE)
 		return
+	if horse_sound.playing == false:
+		horse_sound.play()
 	if not path.is_empty():
 		tilemap.clear_layer(Types.MAP_LAYERS.NAVIGATE)
 		for id in path:
@@ -58,7 +63,7 @@ func _process(delta):
 		next_path_pos = tilemap.map_to_local(path[0])
 		next_path_id = path[0]
 		play_correct_horse_animation(horse_map_id -next_path_id)
-	global_position = horse_pos.move_toward(next_path_pos, delta * 40)
+	global_position = horse_pos.move_toward(next_path_pos, delta * 60)
 
 func play_correct_horse_animation(delta: Vector2i):
 	var new_animation: String = "idile"

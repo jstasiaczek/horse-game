@@ -4,6 +4,7 @@ extends Control
 @onready var horse_status_container = $MG/HorseStatusContainer
 @onready var horse_status = $MG/HorseStatusContainer/HorseStatus
 
+const BED_SMALL_CODE: String = "[img]res://assets/icons/bed_small.png[/img]"
 const HORSE_ICON_CODE: String = "[img]res://assets/icons/horse_small.png[/img]"
 func _ready():
 	date_time.set_text(GameService.time.format())
@@ -12,10 +13,14 @@ func _ready():
 	SignalsService.on_poi_hover.connect(on_poi_hover)
 	SignalsService.on_time_changed.connect(on_time_changed)
 	SignalsService.on_inventory_update.connect(update_horse_info)
+	SignalsService.on_horse_tired.connect(update_horse_info)
+	SignalsService.on_horse_rested.connect(update_horse_info)
 
 func update_horse_info():
 	var inventory: Array[Types.InventoryItem] = GameService.get_inventory()
 	var desc: String = HORSE_ICON_CODE + " "
+	if GameService.is_horse_tired():
+		desc += BED_SMALL_CODE
 	var height: int = 36
 	for el in inventory:
 		desc += "\n[img]"+Types.get_item_icon_path(el.item, true)+"[/img]"

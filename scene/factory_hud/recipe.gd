@@ -31,12 +31,12 @@ func _ready():
 	desc += "[img]"+Types.get_item_icon_path(recipe.output)+"[/img]"
 	desc += "[/right]"
 	reciepe_desc.text = desc + "  "
-	if GameService.can_pay_for_recipe(recipe):
-		make_button.visible = true
-		disabled_button.visible = false
-	else:
+	if GameService.can_pay_for_recipe(recipe) == false or (recipe.player_required and GameService.is_horse_tired()):
 		make_button.visible = false
 		disabled_button.visible = true
+	else:
+		make_button.visible = true
+		disabled_button.visible = false
 
 
 func _on_make_button_pressed():

@@ -5,12 +5,18 @@ signal on_map_tile_size_update(value: Vector2i)
 signal on_map_path_update(value: Array[Vector2i])
 signal on_tilemap_set
 
+#horse
+
+signal on_horse_tired
+signal on_horse_rested
+
 # map id signals
 signal on_set_target(value: Vector2i)
 signal on_poi_hover(value: Types.POI_TYPES)
 signal on_tile_clicked(id: Vector2i)
 signal on_horse_tile_changed(id: Vector2i)
-signal on_factory_click(id: Vector2i)
+signal on_poi_click(id: Vector2i)
+signal on_set_horse_map_id(id: Vector2i)
 
 # time signals
 signal on_time_tick
@@ -25,5 +31,7 @@ signal on_inventory_update
 
 # gui signals
 signal on_factory_gui_close(id: Vector2i)
+signal on_quest_gui_close(id: Vector2i)
+signal on_exit_gui_close(id: Vector2i)
 signal on_wait_hud_display(id: Vector2i, recipe: Types.Recipe)
 signal on_wait_hud_close

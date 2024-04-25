@@ -19,6 +19,7 @@ func on_time_changed():
 		return
 	timer.stop()
 	GameService.add_item_to_output(poi_id, recipe)
+	GameService.set_horse_tired()
 	SignalsService.on_wait_hud_close.emit()
 	
 

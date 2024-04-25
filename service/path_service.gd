@@ -2,6 +2,7 @@ extends Node
 
 var _path_service: AStarGrid2D = AStarGrid2D.new()
 var _current_path_set: Array[Vector2i] = []
+var _current_region: Rect2i
 
 func _init():
 	_path_service.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
@@ -19,8 +20,14 @@ func _update_path():
 	for tile in _current_path_set:
 		_path_service.set_point_solid(tile, false)
 
+func update_path(value: Array[Vector2i]):
+	_path_service.fill_solid_region(_current_region, true)
+	_current_path_set = value
+	_update_path()
+
 func _on_map_tile_size_update(value: Vector2i):
 	var region: Rect2i = Rect2i(Vector2i(0,0), value)
+	_current_region = region
 	_path_service.region = region
 	_path_service.update()
 	_path_service.fill_solid_region(region, true)

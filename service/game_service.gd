@@ -5,6 +5,9 @@ const MIN_ZOOM: float = 1.0
 const MINUTES_ADD_ON_TICK: int = 10
 const GROUP_FACTORY_GUI: String = "FACTORY_GUI"
 const GROUP_WAIT_HUD = "WAIT_HUD"
+const GROUP_QUEST_HUD = "QUEST_HUD"
+const GROUP_EXIT_HUD = "EXIT_HUD"
+const HORSE_TIRED_COOLDOWN: int = 60 * 4
 
 var _tile_size: Vector2i = Vector2i(16,16)
 var _current_map_tile_size: Vector2i
@@ -14,6 +17,7 @@ var time: GameTime = GameTime.new()
 var _pois: Dictionary = {}
 var _horse_map_id: Vector2i
 var _horse_inventory: Array[Types.InventoryItem] = []
+var _horse_tired: int = 0
 
 class GameTime:
 	var minutes: int = 0
@@ -49,7 +53,33 @@ func _ready():
 	SignalsService.on_horse_tile_changed.connect(on_horse_tile_changed)
 
 func on_time_tick():
-	time.add_minutes(10)
+	time.add_minutes(MINUTES_ADD_ON_TICK)
+
+func on_time_changed():
+	for poi_id in _pois.keys():
+		var poi = _pois[poi_id]
+		if poi.action_type == Types.POI_ACTON_TYPE.FACTORY and poi.has_doable_queue():
+			poi.add_time(MINUTES_ADD_ON_TICK)
+			if poi.process():
+				SignalsService.on_factory_output_update.emit(poi_id)
+				SignalsService.on_factory_queue_update.emit(poi_id)
+	if is_horse_tired():
+		_horse_tired -= MINUTES_ADD_ON_TICK
+		if is_horse_tired() == false:
+			clear_horse_tired()
+			SignalsService.on_horse_rested.emit()
+	
+########## HORSE FUNCTIONS ##############
+
+func is_horse_tired() -> bool:
+	return _horse_tired > 0
+
+func set_horse_tired():
+	_horse_tired = HORSE_TIRED_COOLDOWN
+	SignalsService.on_horse_tired.emit()
+
+func clear_horse_tired():
+	_horse_tired = 0
 
 ########### INVENTORY FUNCTIONS ###############
 
@@ -162,40 +192,32 @@ func clear_factory_output(id: Vector2i):
 	poi.output.clear()
 	SignalsService.on_factory_output_update.emit(id)
 
-func on_time_changed():
-	for poi_id in _pois.keys():
-		var poi = _pois[poi_id]
-		if poi.action_type == Types.POI_ACTON_TYPE.FACTORY and poi.has_doable_queue():
-			poi.add_time(MINUTES_ADD_ON_TICK)
-			if poi.process():
-				SignalsService.on_factory_output_update.emit(poi_id)
-				SignalsService.on_factory_queue_update.emit(poi_id)
-
 func create_default_factory(type: Types.POI_TYPES):
 	var recipes: Array[Types.Recipe] = []
 	match type:
 		Types.POI_TYPES.BAKERY:
-			recipes.append(Types.new_recipe([Types.ITEM.FLOUR], Types.ITEM.BREAD, 1, 60))
+			recipes.append(Types.new_recipe([Types.ITEM.FLOUR], Types.ITEM.BREAD, 1, 15))
 			return Types.new_factory(type, recipes)
 		Types.POI_TYPES.FARM:
-			recipes.append(Types.new_recipe([Types.ITEM.COIN], Types.ITEM.WHEAT, 1, 60*4))
+			recipes.append(Types.new_recipe([Types.ITEM.COIN], Types.ITEM.WHEAT, 1, 60))
 			return Types.new_factory(type, recipes)
 		Types.POI_TYPES.LUMBERJACK:
-			recipes.append(Types.new_recipe([Types.ITEM.COIN, Types.ITEM.BREAD], Types.ITEM.WOOD, 1, 60))
+			recipes.append(Types.new_recipe([Types.ITEM.COIN, Types.ITEM.BREAD], Types.ITEM.WOOD, 1, 15))
 			return Types.new_factory(type, recipes)
 		Types.POI_TYPES.ORCHARD:
 			recipes.append(Types.new_recipe([], Types.ITEM.APPLE, 1, 60*4, true))
+			recipes.append(Types.new_recipe([Types.ITEM.COIN], Types.ITEM.APPLE, 1, 15))
 			return Types.new_factory(type, recipes)
 		Types.POI_TYPES.WINDMILL:
-			recipes.append(Types.new_recipe([Types.ITEM.WHEAT], Types.ITEM.FLOUR, 1, 60*4))
+			recipes.append(Types.new_recipe([Types.ITEM.WHEAT], Types.ITEM.FLOUR, 1, 30))
 			return Types.new_factory(type, recipes)
 		Types.POI_TYPES.PORT:
 			recipes.append(Types.new_recipe([Types.ITEM.COIN], Types.ITEM.FISH, 1, 60))
 			return Types.new_factory(type, recipes)
 		Types.POI_TYPES.MARKET:
 			recipes.append(Types.new_recipe([Types.ITEM.FISH], Types.ITEM.COIN, 2, 0))
-			recipes.append(Types.new_recipe([Types.ITEM.WOOD], Types.ITEM.COIN, 2, 0))
+			recipes.append(Types.new_recipe([Types.ITEM.WOOD], Types.ITEM.COIN, 6, 0))
 			recipes.append(Types.new_recipe([Types.ITEM.APPLE], Types.ITEM.COIN, 1, 0))
-			recipes.append(Types.new_recipe([Types.ITEM.BREAD], Types.ITEM.COIN, 2, 0))
+			recipes.append(Types.new_recipe([Types.ITEM.BREAD], Types.ITEM.COIN, 4, 0))
 			return Types.new_factory(type, recipes)
 	return null

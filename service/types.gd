@@ -34,7 +34,8 @@ const POI_NAMES: Dictionary = {
 
 enum POI_ACTON_TYPE {
 	FACTORY,
-	QUEST
+	QUEST,
+	EXIT
 }
 
 enum ITEM {
@@ -139,3 +140,32 @@ func new_factory(type: POI_TYPES, recipes: Array[Recipe]) -> Factory:
 
 func get_poi_name_by_type(type: POI_TYPES) -> String:
 	return POI_NAMES[type]
+
+class Quest:
+	var type: POI_TYPES = POI_TYPES.NONE
+	var action_type: POI_ACTON_TYPE = POI_ACTON_TYPE.QUEST
+	var title: String
+	var desc: String
+	var input: Array[InventoryItem]
+	var is_finished: bool = false
+	var finished_desc: String
+	var action: Callable
+
+func new_quest(title: String, desc: String, input: Array[InventoryItem], finished_desc: String, action: Callable) -> Quest:
+	var inst: Quest = Quest.new()
+	inst.title = title
+	inst.desc = desc
+	inst.input = input
+	inst.finished_desc = finished_desc
+	inst.action = action
+	return inst
+
+class Exit:
+	var type: POI_TYPES = POI_TYPES.NONE
+	var desc: String
+	var action_type: POI_ACTON_TYPE = POI_ACTON_TYPE.EXIT
+
+func new_exit(desc: String) -> Exit:
+	var inst: Exit = Exit.new()
+	inst.desc = desc
+	return inst
