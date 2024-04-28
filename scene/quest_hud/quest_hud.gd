@@ -3,6 +3,7 @@ extends Control
 @onready var desc_label = $CC/WoodPanel/MC/VB/DescLabel
 @onready var items_desc = $CC/WoodPanel/MC/VB/ItemsDesc
 @onready var finish_button = $CC/WoodPanel/MC/HB/FinishButton
+@onready var items_label = $CC/WoodPanel/MC/VB/ItemsLabel
 
 var quest: Types.Quest
 var id: Vector2i
@@ -24,6 +25,9 @@ func create_desc():
 
 func create_items_desc():
 	var desc: String = ""
+	if quest.input.is_empty():
+		items_label.visible = false
+		items_desc.visible = false
 	for el in quest.input:
 		if el.count > 1:
 			desc += "%2d" % el.count

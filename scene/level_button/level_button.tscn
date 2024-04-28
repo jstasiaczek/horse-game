@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://c272txi76plnk"]
+
+[ext_resource type="Texture2D" uid="uid://bqx0bn7js8is" path="res://assets/ui/buttonLong_brown.png" id="1_8dodm"]
+[ext_resource type="Texture2D" uid="uid://b5yx4mt60fd80" path="res://assets/ui/buttonLong_brown_pressed.png" id="2_7m66a"]
+[ext_resource type="Texture2D" uid="uid://chkji8xxi202o" path="res://assets/ui/buttonLong_brown_hover.png" id="3_beirw"]
+[ext_resource type="Script" path="res://scene/level_button/level_button.gd" id="4_vnkk6"]
+[ext_resource type="LabelSettings" uid="uid://ci1knydkctqb7" path="res://scene/factory_hud/mc_title_32_white.tres" id="5_b0xkd"]
+
+[node name="LevelButton" type="TextureButton"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture_normal = ExtResource("1_8dodm")
+texture_pressed = ExtResource("2_7m66a")
+texture_hover = ExtResource("3_beirw")
+script = ExtResource("4_vnkk6")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "123"
+label_settings = ExtResource("5_b0xkd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="button_down" from="." to="." method="_on_button_down"]
+[connection signal="button_up" from="." to="." method="_on_button_up"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]

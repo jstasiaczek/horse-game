@@ -7,7 +7,6 @@ const FACTORY_HUD = preload("res://scene/factory_hud/factory_hud.tscn")
 const QUEST_HUD = preload("res://scene/quest_hud/quest_hud.tscn")
 const EXIT_HUD = preload("res://scene/exit_hud/exit_hud.tscn")
 const WAIT_HUD = preload("res://scene/wait_hud/wait_hud.tscn")
-const LEVEL_1 = preload("res://level/level1/level1.tscn")
 
 var tile_map: TileMap
 var prev_hover_cell: Vector2i = Vector2i.ZERO
@@ -15,10 +14,9 @@ var drag_start_pos: Vector2
 var is_drag: bool = false
 
 func load_level():
-	tile_map = LEVEL_1.instantiate()
+	tile_map = load(GameService.get_level_path()).instantiate()
 	tile_map_container.add_child(tile_map)
 	GameService.set_tilemap(tile_map)
-	
 
 func _ready():
 	load_level()
@@ -32,8 +30,6 @@ func _ready():
 
 func on_set_horse_map_id(id: Vector2i):
 	horse.global_position = tile_map.map_to_local(id)
-
-
 
 func on_wait_hud_display(id: Vector2i, recipe: Types.Recipe):
 	var hud = WAIT_HUD.instantiate()
@@ -118,7 +114,9 @@ func handle_hover_cell(event):
 		prev_hover_cell = hover_cell
 		if tile_data.get_custom_data("stable") == true:
 			tile_map.set_cell(Types.MAP_LAYERS.HOVER, prev_hover_cell, 0, Vector2i(9,16))
-			SignalsService.on_poi_hover.emit(GameService.get_poi_by_id(hover_cell).type, hover_cell)
+			var poi = GameService.get_poi_by_id(hover_cell)
+			if poi != null:
+				SignalsService.on_poi_hover.emit(poi.type, hover_cell)
 		else:	
 			tile_map.set_cell(Types.MAP_LAYERS.HOVER, prev_hover_cell, 0, Vector2i(9,15))
 			SignalsService.on_poi_hover.emit(Types.POI_TYPES.NONE, hover_cell)

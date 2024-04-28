@@ -22,7 +22,7 @@ func create_quest():
 		[Types.new_inventory_item(Types.ITEM.WOOD, 10), Types.new_inventory_item(Types.ITEM.BREAD, 1)],
 		"Thank you for your help, the bridge is fixed.",
 		action,
-		)
+	)
 
 func create_level_pois():
 	var pois: Dictionary = {}

@@ -7,6 +7,7 @@ extends Control
 const BED_SMALL_CODE: String = "[img]res://assets/icons/bed_small.png[/img]"
 const HORSE_ICON_CODE: String = "[img]res://assets/icons/horse_small.png[/img]"
 const GEAR_ICON_CODE: String = "[img]res://assets/icons/gear.png[/img]"
+
 func _ready():
 	date_time.set_text(GameService.time.format())
 	poi_info.visible = false

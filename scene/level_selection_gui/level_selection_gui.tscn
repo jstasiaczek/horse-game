@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://c66wffxv23o2a"]
+
+[ext_resource type="Script" path="res://scene/level_selection_gui/level_selection_gui.gd" id="1_8oxcj"]
+[ext_resource type="Texture2D" uid="uid://f7766npel34c" path="res://assets/background.png" id="1_iajoq"]
+[ext_resource type="LabelSettings" uid="uid://d1nwvtodgwtnj" path="res://assets/mc_huge_text_white.tres" id="2_vfe0f"]
+
+[node name="LevelSelectionGui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8oxcj")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_iajoq")
+expand_mode = 1
+
+[node name="MC" type="MarginContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 160
+theme_override_constants/margin_right = 160
+theme_override_constants/margin_bottom = 60
+
+[node name="VB" type="VBoxContainer" parent="Background/MC"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Background/MC/VB"]
+layout_mode = 2
+text = "SELECT LEVEL"
+label_settings = ExtResource("2_vfe0f")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelsContainer" type="HFlowContainer" parent="Background/MC/VB"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+alignment = 1

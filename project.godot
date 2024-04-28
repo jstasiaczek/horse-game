@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Sir Horse"
-run/main_scene="res://scene/map/map.tscn"
+run/main_scene="res://scene/level_selection_gui/level_selection_gui.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.png"
 

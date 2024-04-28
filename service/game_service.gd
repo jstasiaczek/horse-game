@@ -1,5 +1,8 @@
 extends Node
 
+const SCENE_MAP = preload("res://scene/map/map.tscn")
+const SCENE_LEVEL_SELECTION = preload("res://scene/level_selection_gui/level_selection_gui.tscn")
+
 const MAX_ZOOM: float = 2.0
 const MIN_ZOOM: float = 1.5
 const MINUTES_ADD_ON_TICK: int = 10
@@ -18,6 +21,7 @@ var _pois: Dictionary = {}
 var _horse_map_id: Vector2i
 var _horse_inventory: Array[Types.InventoryItem] = []
 var _horse_tired: int = 0
+var _level_path: String = ""
 
 class GameTime:
 	var minutes: int = 0
@@ -68,7 +72,21 @@ func on_time_changed():
 		if is_horse_tired() == false:
 			clear_horse_tired()
 			SignalsService.on_horse_rested.emit()
-	
+
+########## LEVEL FUNCTIONS ###############
+func load_level_select():
+	get_tree().change_scene_to_packed(SCENE_LEVEL_SELECTION)
+
+func load_map(level: String):
+	set_level_path(level)
+	get_tree().change_scene_to_packed(SCENE_MAP)
+
+func set_level_path(value: String):
+	_level_path = value
+
+func get_level_path() -> String:
+	return _level_path
+
 ########## HORSE FUNCTIONS ##############
 
 func is_horse_tired() -> bool:
@@ -139,10 +157,10 @@ func set_current_map_tile_size(value: Vector2i):
 	SignalsService.on_map_tile_size_update.emit(value)
 
 func get_map_width_px() -> int:
-	return _current_map_tile_size.x * _tile_size.x + MAP_PADDING
+	return _current_map_tile_size.x * _tile_size.x
 	
 func get_map_height_px() -> int:
-	return _current_map_tile_size.y * _tile_size.y + MAP_PADDING
+	return _current_map_tile_size.y * _tile_size.y
 
 func set_tilemap(value: TileMap):
 	_tilemap_instance = value
