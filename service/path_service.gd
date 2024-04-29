@@ -29,7 +29,6 @@ func _on_map_tile_size_update(value: Vector2i):
 	_path_service.region = region
 	_path_service.update()
 	_set_all_region_solid()
-	_set_path_ids()
 
 func get_id_path(from_id: Vector2i, to_id: Vector2i) -> Array[Vector2i]:
 	return _path_service.get_id_path(from_id, to_id)
