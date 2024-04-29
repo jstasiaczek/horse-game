@@ -14,28 +14,30 @@ func _init():
 
 func _on_map_path_update(value: Array[Vector2i]):
 	_current_path_set = value
-	_update_path()
+	_set_all_region_solid()
+	_set_path_ids()
 
-func _update_path():
-	for tile in _current_path_set:
-		_path_service.set_point_solid(tile, false)
 
 func update_path(value: Array[Vector2i]):
-	_path_service.fill_solid_region(_current_region, true)
+	_set_all_region_solid()
 	_current_path_set = value
-	_update_path()
+	_set_path_ids()
 
 func _on_map_tile_size_update(value: Vector2i):
 	var region: Rect2i = Rect2i(Vector2i(0,0), value)
 	_current_region = region
 	_path_service.region = region
 	_path_service.update()
-	_path_service.fill_solid_region(region, true)
-	_update_path()
-
-func clear():
-	_current_path_set = []
-	_path_service.update()
+	_set_all_region_solid()
+	_set_path_ids()
 
 func get_id_path(from_id: Vector2i, to_id: Vector2i) -> Array[Vector2i]:
 	return _path_service.get_id_path(from_id, to_id)
+
+func _set_path_ids():
+	for tile in _current_path_set:
+		_path_service.set_point_solid(tile, false)
+
+func _set_all_region_solid():
+	if _current_region != null:
+		_path_service.fill_solid_region(_current_region, true)

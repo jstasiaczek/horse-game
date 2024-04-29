@@ -75,3 +75,4 @@ bbcode_enabled = true
 text = "[center]Hello this is horse[/center]"
 
 [connection signal="pressed" from="CC/WoodPanel/MC/HB/StayButton" to="." method="_on_stay_button_pressed"]
+[connection signal="pressed" from="CC/WoodPanel/MC/HB/NextButton" to="." method="_on_next_button_pressed"]

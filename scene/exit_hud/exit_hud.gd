@@ -11,3 +11,7 @@ func _ready():
 
 func _on_stay_button_pressed():
 	SignalsService.on_exit_gui_close.emit(id)
+
+
+func _on_next_button_pressed():
+	GameService.load_level_select()

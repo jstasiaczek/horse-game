@@ -80,10 +80,10 @@ func quest3_action():
 func create_quest2() -> Types.Quest:
 	return Types.new_quest(
 		"Stops!",
-		"During the game you can stop at the "
-		+STOP_FACTORY_CODE+" workshop where you can buy and sell things, "
+		"During the game you can stop at "
+		+STOP_FACTORY_CODE+" workshops where you can buy and sell things, "
 		+STOP_QUEST_CODE +" quest that can unlock variety of things and "
-		+STOP_EXIT_CODE+" level finish.",
+		+ "at " +STOP_EXIT_CODE+" level finish.",
 		[],
 		"You got an apple! Don't eat it, it may be useful.\nNow proceed to next marker. ",
 		quest2_action,
