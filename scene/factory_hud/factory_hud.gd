@@ -58,6 +58,7 @@ func get_factory(id):
 	return config
 
 func create_recipe_list(id: Vector2i):
+	print("create list")
 	for child in recipe_container.get_children():
 		recipe_container.remove_child(child)
 	var config = get_factory(id)
@@ -89,7 +90,7 @@ func update_queue_list(poi_id: Vector2i):
 	if factory == null:
 		return
 	for item in factory.recipe_queue:
-		desc += "[img]"+Types.get_item_icon_path(item.output)+"[/img] "
+		desc += "[img]"+Types.get_item_icon_path(item.output.item)+"[/img] "
 	queue.text = desc
 
 

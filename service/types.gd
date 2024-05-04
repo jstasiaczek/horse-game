@@ -87,7 +87,7 @@ func new_inventory_item(item: ITEM, count: int = 1) -> InventoryItem:
 
 class Recipe:
 	var input: Array[ITEM] =[]
-	var output: ITEM
+	var output: InventoryItem
 	var output_count: int = 1
 	var time: int = 60
 	var player_required: bool = false
@@ -95,8 +95,7 @@ class Recipe:
 func new_recipe(input: Array[ITEM], output: ITEM, output_count: int = 1, time: int = 1, player_required: bool = false) -> Recipe:
 	var rec = Recipe.new()
 	rec.input = input
-	rec.output = output
-	rec.output_count = output_count
+	rec.output = new_inventory_item(output, output_count)
 	rec.time = time
 	rec.player_required = player_required
 	return rec
@@ -128,8 +127,8 @@ class Factory:
 		for recipe in copy:
 			if is_current_recipe_finished() and not recipe.player_required:
 				reset_working()
-				for i in range(recipe.output_count):
-					output.append(recipe.output)
+				for i in range(recipe.output.count):
+					output.append(recipe.output.item)
 					is_output = true
 			else:
 				result.append(recipe)

@@ -105,49 +105,30 @@ func get_inventory() -> Array[Types.InventoryItem]:
 	return _horse_inventory
 
 func clear_inventory():
-	_horse_inventory.clear()
+	_horse_inventory = InventoryTool.get_empty()
 
 func can_pay_for_recipe(recipe: Types.Recipe) -> bool:
-	for item in recipe.input:
-		if not has_in_inventory(item, 1):
-			return false
-	return true
+	return InventoryTool.can_pay_for_recipe(_horse_inventory, recipe)
 
 func pay_for_recipe(recipe: Types.Recipe) -> bool:
 	if can_pay_for_recipe(recipe) == false:
 		return false
-	for item in recipe.input:
-		remove_from_inventory(item, 1)
+	_horse_inventory = InventoryTool.pay_for_recipe(_horse_inventory, recipe)
+	SignalsService.on_inventory_update.emit()
 	return true
 
 func remove_from_inventory(item: Types.ITEM, count: int = 1):
-	if not has_in_inventory(item, 1):
+	if not has_in_inventory(item, count):
 		return
-	var inventory: Array[Types.InventoryItem] = []
-	for el in _horse_inventory:
-		if el.item == item:
-			if el.count > count:
-				el.count -= count
-				inventory.append(el)
-		else:
-			inventory.append(el)
-	_horse_inventory = inventory.duplicate(true)
+	_horse_inventory = InventoryTool.remove_from_inventory(_horse_inventory, item, count)
+	print("remove")
 	SignalsService.on_inventory_update.emit()
 
 func has_in_inventory(item: Types.ITEM, count: int = 1) -> bool:
-	for el in _horse_inventory:
-		if el.item == item and el.count >= count:
-			return true
-	return false
+	return InventoryTool.has_in_inventory(_horse_inventory, item, count)
 
 func add_to_inventory(item: Types.ITEM, count: int = 1):
-	var is_in_inventory = false
-	for idx in range(_horse_inventory.size()):
-		if _horse_inventory[idx].item == item:
-			_horse_inventory[idx].count += count
-			is_in_inventory = true
-	if not is_in_inventory:
-		_horse_inventory.append(Types.new_inventory_item(item, count))
+	_horse_inventory = InventoryTool.add_to_inventory(_horse_inventory, item, count)
 	SignalsService.on_inventory_update.emit()
 
 ########### TILEMAP FUNCTIONS ##################
@@ -199,8 +180,8 @@ func add_item_to_output(id: Vector2i, recipe: Types.Recipe):
 	var poi = get_poi_by_id(id)
 	if poi == null or poi.action_type != Types.POI_ACTON_TYPE.FACTORY:
 		return
-	for i in range(recipe.output_count):
-		poi.output.append(recipe.output)
+	for i in range(recipe.output.count):
+		poi.output.append(recipe.output.item)
 	SignalsService.on_factory_output_update.emit(id)
 
 func clear_factory_output(id: Vector2i):

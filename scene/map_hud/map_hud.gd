@@ -47,8 +47,8 @@ func on_poi_hover(type: Types.POI_TYPES, id: Vector2i):
 			desc += " "+ GEAR_ICON_CODE
 		desc += "\n"
 		for el in poi.recipes:
-			if not displayed.has(el.output):
-				displayed.append(el.output)
-				desc += "[img]"+Types.get_item_icon_path(el.output, true)+"[/img]"
+			if not displayed.has(el.output.item):
+				displayed.append(el.output.item)
+				desc += "[img]"+Types.get_item_icon_path(el.output.item, true)+"[/img]"
 	poi_info.set_text(desc)
 

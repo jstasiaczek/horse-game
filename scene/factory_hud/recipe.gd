@@ -26,9 +26,9 @@ func _ready():
 			desc += PLUS_ICON_CODE
 		desc += HORSE_ICON_CODE
 	desc += ARROW_ICON_CODE
-	if recipe.output_count > 1:
-		desc += "%s " % recipe.output_count
-	desc += "[img]"+Types.get_item_icon_path(recipe.output)+"[/img]"
+	if recipe.output.count > 1:
+		desc += "%s " % recipe.output.count
+	desc += "[img]"+Types.get_item_icon_path(recipe.output.item)+"[/img]"
 	desc += "[/right]"
 	reciepe_desc.text = desc + "  "
 	if GameService.can_pay_for_recipe(recipe) == false or (recipe.player_required and GameService.is_horse_tired()):
