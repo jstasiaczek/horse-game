@@ -1,25 +1,24 @@
 extends Node2D
-@onready var canvas_layer = $CanvasLayer
-@onready var tile_map_container = $TileMapContainer
-@onready var horse = $Horse
 
 const FACTORY_HUD = preload("res://scene/factory_hud/factory_hud.tscn")
 const QUEST_HUD = preload("res://scene/quest_hud/quest_hud.tscn")
 const EXIT_HUD = preload("res://scene/exit_hud/exit_hud.tscn")
 const WAIT_HUD = preload("res://scene/wait_hud/wait_hud.tscn")
 
+@onready var canvas_layer = $CanvasLayer
+@onready var tile_map_container = $TileMapContainer
+@onready var horse = $Horse
+
 var tile_map: TileMap
 var prev_hover_cell: Vector2i = Vector2i.ZERO
 var drag_start_pos: Vector2
-var is_drag: bool = false
 
 func load_level():
-	tile_map = load(GameService.get_level_path()).instantiate()
-	tile_map_container.add_child(tile_map)
-	GameService.set_tilemap(tile_map)
+	var level = load(GameService.get_level_path()).instantiate()
+	tile_map_container.add_child(level)
 
 func _ready():
-	load_level()
+	SignalsService.on_tilemap_set.connect(on_tilemap_set)
 	SignalsService.on_poi_click.connect(on_poi_click)
 	SignalsService.on_factory_gui_close.connect(on_factory_gui_close)
 	SignalsService.on_wait_hud_display.connect(on_wait_hud_display)
@@ -27,11 +26,15 @@ func _ready():
 	SignalsService.on_set_horse_map_id.connect(on_set_horse_map_id)
 	SignalsService.on_quest_gui_close.connect(on_quest_gui_close)
 	SignalsService.on_exit_gui_close.connect(on_exit_gui_close)
+	load_level()
+
+func on_tilemap_set():
+	tile_map = GameService.get_tilemap()
 
 func on_set_horse_map_id(id: Vector2i):
 	horse.global_position = tile_map.map_to_local(id)
 
-func on_wait_hud_display(id: Vector2i, recipe: Types.Recipe):
+func on_wait_hud_display(id: Vector2i, recipe: Recipe):
 	var hud = WAIT_HUD.instantiate()
 	hud.poi_id = id
 	hud.recipe = recipe
@@ -86,9 +89,8 @@ func handle_click_cell(event):
 		return
 	if event.pressed:
 		var clicked_cell = tile_map.local_to_map(get_global_mouse_position())
-		
 		var tile_data: TileData = tile_map.get_cell_tile_data(Types.MAP_LAYERS.PATH, clicked_cell)
-		if tile_data != null and tile_data.get_custom_data("stable"):
+		if tile_data != null and tile_data.get_custom_data(GameService.MAP_CUSTOM_DATA_HORSE_STOP):
 			tile_map.set_cell(Types.MAP_LAYERS.HOVER, prev_hover_cell, 0, Vector2i(10,16))
 			SignalsService.on_set_target.emit(clicked_cell)
 			if GameService.get_horse_map_id() == clicked_cell:
@@ -96,7 +98,7 @@ func handle_click_cell(event):
 	elif not event.pressed:
 		var clicked_cell = tile_map.local_to_map(get_global_mouse_position())
 		var tile_data: TileData = tile_map.get_cell_tile_data(Types.MAP_LAYERS.PATH, clicked_cell)
-		if tile_data != null and tile_data.get_custom_data("stable"):
+		if tile_data != null and tile_data.get_custom_data(GameService.MAP_CUSTOM_DATA_HORSE_STOP):
 			tile_map.set_cell(Types.MAP_LAYERS.HOVER, prev_hover_cell, 0, Vector2i(9,16))
 
 func handle_hover_cell(event):
@@ -112,12 +114,12 @@ func handle_hover_cell(event):
 		SignalsService.on_poi_hover.emit(Types.POI_TYPES.NONE, hover_cell)
 	else:
 		prev_hover_cell = hover_cell
-		if tile_data.get_custom_data("stable") == true:
+		if tile_data.get_custom_data(GameService.MAP_CUSTOM_DATA_HORSE_STOP) == true:
 			tile_map.set_cell(Types.MAP_LAYERS.HOVER, prev_hover_cell, 0, Vector2i(9,16))
 			var poi = GameService.get_poi_by_id(hover_cell)
 			if poi != null:
 				SignalsService.on_poi_hover.emit(poi.type, hover_cell)
-		else:	
+		else:
 			tile_map.set_cell(Types.MAP_LAYERS.HOVER, prev_hover_cell, 0, Vector2i(9,15))
 			SignalsService.on_poi_hover.emit(Types.POI_TYPES.NONE, hover_cell)
 

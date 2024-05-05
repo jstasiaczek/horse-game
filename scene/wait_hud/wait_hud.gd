@@ -3,7 +3,7 @@ extends Control
 @onready var timer = $Timer
 
 var poi_id: Vector2i
-var recipe: Types.Recipe
+var recipe: Recipe
 var start_time: int
 
 # Called when the node enters the scene tree for the first time.

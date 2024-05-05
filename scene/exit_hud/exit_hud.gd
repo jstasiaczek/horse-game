@@ -3,7 +3,7 @@ extends Control
 @onready var next_button = $CC/WoodPanel/MC/HB/NextButton
 @onready var desc_label = $CC/WoodPanel/MC/VB/DescLabel
 
-var exit: Types.Exit
+var exit: Exit
 var id: Vector2i
 
 func _ready():

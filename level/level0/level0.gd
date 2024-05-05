@@ -1,4 +1,5 @@
 extends TileMap
+
 const HORSE_START_MAP_ID: Vector2i = Vector2i(4,6)
 const MOUSE_LEFT_ICON_CODE: String = "[img]res://assets/icons/mouse_left.png[/img]"
 const MOUSE_MIDDLE_ICON_CODE: String = "[img]res://assets/icons/mouse_middle.png[/img]"
@@ -13,22 +14,17 @@ const STOP_QUEST_CODE: String = "[img]res://assets/icons/stop-quest.png[/img]"
 
 func _ready():
 	create_level_pois()
-	GameService.time.clear()
-	GameService.time.add_hours(7)
-	GameService.clear_inventory()
-	var world_tile_size: Vector2i = get_used_rect().size
-	GameService.set_current_map_tile_size(world_tile_size)
-	SignalsService.on_set_horse_map_id.emit(HORSE_START_MAP_ID)
-	SignalsService.on_map_path_update.emit(get_used_cells(Types.MAP_LAYERS.PATH))
+	GameService.reset_level(7)
+	GameService.load_tilemap(self, HORSE_START_MAP_ID)
 
 func create_level_pois():
 	var pois: Dictionary = {}
 	pois[Vector2i(10,6)] = create_quest1()
 	pois[Vector2i(24,9)] = create_quest2()
 	pois[Vector2i(42,7)] = create_quest3()
-	var market: Types.Factory = GameService.create_default_factory(Types.POI_TYPES.MARKET)
+	var market: Factory = GameService.create_default_factory(Types.POI_TYPES.MARKET)
 	market.recipes = []
-	market.recipes.append(Types.new_recipe(
+	market.recipes.append(Recipe.new(
 		[Types.ITEM.APPLE],
 		Types.ITEM.WHEAT,
 		1,
@@ -38,15 +34,15 @@ func create_level_pois():
 	pois[Vector2i(27,17)] = GameService.create_default_factory(Types.POI_TYPES.BAKERY)
 	pois[Vector2i(27,17)] = GameService.create_default_factory(Types.POI_TYPES.BAKERY)
 	pois[Vector2i(29,21)] = create_quest4()
-	pois[Vector2i(25,31)] = Types.new_exit("Boat is ready, you can go...")
+	pois[Vector2i(25,31)] = Exit.new("Boat is ready, you can go...")
 	GameService.set_pois(pois)
 
-func create_quest4() -> Types.Quest:
-	return Types.new_quest(
+func create_quest4() -> Quest:
+	return Quest.new(
 		"The barrier",
 		"I can open barrier but, I'm hungry. "
 		+"Bring me bread and I will open the barrier.",
-		[Types.new_inventory_item(Types.ITEM.BREAD, 1)],
+		[InventoryItem.new(Types.ITEM.BREAD, 1)],
 		"Ok, you can go...",
 		quest4_action,
 	)
@@ -57,8 +53,8 @@ func quest4_action():
 	tilemap.set_cell(Types.MAP_LAYERS.PATH, Vector2i(30,22), 0, Vector2i(11, 56))
 	PathService.update_path(tilemap.get_used_cells(Types.MAP_LAYERS.PATH))
 
-func create_quest3() -> Types.Quest:
-	return Types.new_quest(
+func create_quest3() -> Quest:
+	return Quest.new(
 		"What it is about...",
 		"Main goal is to reach finish. To do it, you need to buy"
 		+"and sell thing to complete main quest, and unlock path. Lets try...",
@@ -77,8 +73,8 @@ func quest3_action():
 	marker_3.visible = false
 	
 
-func create_quest2() -> Types.Quest:
-	return Types.new_quest(
+func create_quest2() -> Quest:
+	return Quest.new(
 		"Stops!",
 		"During the game you can stop at "
 		+STOP_FACTORY_CODE+" workshops where you can buy and sell things, "
@@ -98,8 +94,8 @@ func quest2_action():
 	marker_2.visible = false
 	marker_3.visible = true
 
-func create_quest1() -> Types.Quest:
-	return Types.new_quest(
+func create_quest1() -> Quest:
+	return Quest.new(
 		"Controls!",
 		"Use "+MOUSE_LEFT_ICON_CODE+" left button to select destination."
 		+" Hold "+MOUSE_RIGHT_ICON_CODE+" right button to move map around."

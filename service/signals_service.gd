@@ -6,7 +6,6 @@ signal on_map_path_update(value: Array[Vector2i])
 signal on_tilemap_set
 
 #horse
-
 signal on_horse_tired
 signal on_horse_rested
 
@@ -33,5 +32,5 @@ signal on_inventory_update
 signal on_factory_gui_close(id: Vector2i)
 signal on_quest_gui_close(id: Vector2i)
 signal on_exit_gui_close(id: Vector2i)
-signal on_wait_hud_display(id: Vector2i, recipe: Types.Recipe)
+signal on_wait_hud_display(id: Vector2i, recipe: Recipe)
 signal on_wait_hud_close

@@ -7,7 +7,7 @@ const RECIPE = preload("res://scene/factory_hud/recipe.tscn")
 @onready var progress_bar = $CC/WoodPanel/MG/VB2/Control/ProgressBar
 
 var id = Vector2i(8,4)
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	create_recipe_list(id)
 	update_queue_list(id)
@@ -31,7 +31,7 @@ func update_progress():
 		return
 	set_progress(factory)
 
-func set_progress(factory: Types.Factory, clear: bool = false):
+func set_progress(factory: Factory, clear: bool = false):
 	if clear == true:
 		progress_bar.value = 0
 		progress_bar.visible = false
@@ -52,13 +52,12 @@ func update_title():
 	factory_title.text = Types.get_poi_name_by_type(type)
 
 func get_factory(id):
-	var config: Types.Factory = GameService.get_poi_by_id(id)
+	var config: Factory = GameService.get_poi_by_id(id)
 	if config == null or config.action_type != Types.POI_ACTON_TYPE.FACTORY:
 		return null
 	return config
 
 func create_recipe_list(id: Vector2i):
-	print("create list")
 	for child in recipe_container.get_children():
 		recipe_container.remove_child(child)
 	var config = get_factory(id)
@@ -77,32 +76,35 @@ func update_output_list(poi_id: Vector2i):
 	var desc: String = ""
 	if factory == null:
 		return
-	for item in factory.output:
-		desc += "[img]"+Types.get_item_icon_path(item)+"[/img] "
+	for el in factory.output:
+		if el.count > 1:
+			desc += "%3d " % el.count
+		desc += "[img]"+Types.get_item_icon_path(el.item)+"[/img] "
 	output.text = desc
-
 
 func update_queue_list(poi_id: Vector2i):
 	if poi_id != id:
 		return
+	var list: Array[InventoryItem] = []
 	var factory = get_factory(id)
 	var desc: String = ""
 	if factory == null:
 		return
 	for item in factory.recipe_queue:
-		desc += "[img]"+Types.get_item_icon_path(item.output.item)+"[/img] "
+		list = InventoryTool.add_to_inventory(list, item.output.item, item.output.count)
+	for el in list:
+		if el.count > 1:
+			desc += "%3d " % el.count
+		desc += "[img]"+Types.get_item_icon_path(el.item)+"[/img] "
 	queue.text = desc
-
-
 
 func _on_exit_button_pressed():
 	SignalsService.on_factory_gui_close.emit(id)
-
 
 func _on_collect_button_pressed():
 	var poi = GameService.get_poi_by_id(id)
 	if poi == null or poi.action_type != Types.POI_ACTON_TYPE.FACTORY:
 		return
 	for el in poi.output:
-		GameService.add_to_inventory(el)
+		GameService.add_to_inventory(el.item, el.count)
 	GameService.clear_factory_output(id)

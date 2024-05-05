@@ -19,7 +19,7 @@ func _ready():
 	SignalsService.on_horse_rested.connect(update_horse_info)
 
 func update_horse_info():
-	var inventory: Array[Types.InventoryItem] = GameService.get_inventory()
+	var inventory: Array[InventoryItem] = GameService.get_inventory()
 	var desc: String = HORSE_ICON_CODE + " "
 	if GameService.is_horse_tired():
 		desc += BED_SMALL_CODE

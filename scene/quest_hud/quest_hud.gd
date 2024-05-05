@@ -5,7 +5,7 @@ extends Control
 @onready var finish_button = $CC/WoodPanel/MC/HB/FinishButton
 @onready var items_label = $CC/WoodPanel/MC/VB/ItemsLabel
 
-var quest: Types.Quest
+var quest: Quest
 var id: Vector2i
 
 func _ready():

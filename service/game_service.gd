@@ -10,46 +10,19 @@ const GROUP_FACTORY_GUI: String = "FACTORY_GUI"
 const GROUP_WAIT_HUD = "WAIT_HUD"
 const GROUP_QUEST_HUD = "QUEST_HUD"
 const GROUP_EXIT_HUD = "EXIT_HUD"
+const MAP_CUSTOM_DATA_HORSE_STOP = "stable"
 const HORSE_TIRED_COOLDOWN: int = 60 * 4
+const MAP_PADDING: int = 64
+const _tile_size: Vector2i = Vector2i(16,16)
 
-var _tile_size: Vector2i = Vector2i(16,16)
 var _current_map_tile_size: Vector2i
 var _tilemap_instance: TileMap
-var MAP_PADDING: int = 64
 var time: GameTime = GameTime.new()
 var _pois: Dictionary = {}
 var _horse_map_id: Vector2i
-var _horse_inventory: Array[Types.InventoryItem] = []
+var _horse_inventory: Array[InventoryItem] = []
 var _horse_tired: int = 0
 var _level_path: String = ""
-
-class GameTime:
-	var minutes: int = 0
-	func clear():
-		minutes = 0
-	func set_minutes(value: int):
-		minutes = value
-		SignalsService.on_time_changed.emit()
-	func add_minutes(value: int):
-		set_minutes(minutes + value)
-	func add_hours(value: int):
-		add_minutes(value * 60) 
-	func add_day(value: int):
-		add_hours(24 * value)
-	func get_minutes() -> int:
-		return minutes
-	func get_minute() -> int:
-		return minutes % 60
-	func get_hour() -> int:
-		return (minutes / 60) % 24
-	func get_day() -> int:
-		return (minutes / 60) / 24
-	func get_day_string():
-		if get_day() == 1:
-			return "day"
-		return "days"
-	func format():
-		return "%4d %s %02d:%02d" % [get_day(), get_day_string(), get_hour(), get_minute()]
 
 func _ready():
 	SignalsService.on_time_tick.connect(on_time_tick)
@@ -101,16 +74,16 @@ func clear_horse_tired():
 
 ########### INVENTORY FUNCTIONS ###############
 
-func get_inventory() -> Array[Types.InventoryItem]:
+func get_inventory() -> Array[InventoryItem]:
 	return _horse_inventory
 
 func clear_inventory():
 	_horse_inventory = InventoryTool.get_empty()
 
-func can_pay_for_recipe(recipe: Types.Recipe) -> bool:
+func can_pay_for_recipe(recipe: Recipe) -> bool:
 	return InventoryTool.can_pay_for_recipe(_horse_inventory, recipe)
 
-func pay_for_recipe(recipe: Types.Recipe) -> bool:
+func pay_for_recipe(recipe: Recipe) -> bool:
 	if can_pay_for_recipe(recipe) == false:
 		return false
 	_horse_inventory = InventoryTool.pay_for_recipe(_horse_inventory, recipe)
@@ -121,7 +94,6 @@ func remove_from_inventory(item: Types.ITEM, count: int = 1):
 	if not has_in_inventory(item, count):
 		return
 	_horse_inventory = InventoryTool.remove_from_inventory(_horse_inventory, item, count)
-	print("remove")
 	SignalsService.on_inventory_update.emit()
 
 func has_in_inventory(item: Types.ITEM, count: int = 1) -> bool:
@@ -150,6 +122,18 @@ func set_tilemap(value: TileMap):
 func get_tilemap() -> TileMap:
 	return _tilemap_instance
 
+func reset_level(start_hour: int):
+	GameService.time.clear()
+	GameService.time.add_hours(start_hour)
+	GameService.clear_inventory()
+
+func load_tilemap(tilemap: TileMap, horse_pos: Vector2i):
+	GameService.set_tilemap(tilemap)
+	var world_tile_size: Vector2i = tilemap.get_used_rect().size
+	GameService.set_current_map_tile_size(world_tile_size)
+	SignalsService.on_set_horse_map_id.emit(horse_pos)
+	SignalsService.on_map_path_update.emit(tilemap.get_used_cells(Types.MAP_LAYERS.PATH))
+
 ################# POI FUNCTIONS #####################
 func set_pois(value: Dictionary):
 	_pois = value
@@ -169,19 +153,18 @@ func get_horse_map_id() -> Vector2i:
 	return _horse_map_id
 
 ############ FACTORY FUNCTIONS ############
-func add_recipe_to_queue(id: Vector2i, recipe: Types.Recipe):
+func add_recipe_to_queue(id: Vector2i, recipe: Recipe):
 	var poi = get_poi_by_id(id)
 	if poi == null or poi.action_type != Types.POI_ACTON_TYPE.FACTORY:
 		return
 	poi.recipe_queue.append(recipe)
 	SignalsService.on_factory_queue_update.emit(id)
 
-func add_item_to_output(id: Vector2i, recipe: Types.Recipe):
+func add_item_to_output(id: Vector2i, recipe: Recipe):
 	var poi = get_poi_by_id(id)
 	if poi == null or poi.action_type != Types.POI_ACTON_TYPE.FACTORY:
 		return
-	for i in range(recipe.output.count):
-		poi.output.append(recipe.output.item)
+	poi.output = InventoryTool.add_to_inventory(poi.output, recipe.output.item, recipe.output.count)
 	SignalsService.on_factory_output_update.emit(id)
 
 func clear_factory_output(id: Vector2i):
@@ -192,31 +175,31 @@ func clear_factory_output(id: Vector2i):
 	SignalsService.on_factory_output_update.emit(id)
 
 func create_default_factory(type: Types.POI_TYPES):
-	var recipes: Array[Types.Recipe] = []
+	var recipes: Array[Recipe] = []
 	match type:
 		Types.POI_TYPES.BAKERY:
-			recipes.append(Types.new_recipe([Types.ITEM.FLOUR], Types.ITEM.BREAD, 1, 15))
-			return Types.new_factory(type, recipes)
+			recipes.append(Recipe.new([Types.ITEM.FLOUR], Types.ITEM.BREAD, 1, 15))
+			return Factory.new(type, recipes)
 		Types.POI_TYPES.FARM:
-			recipes.append(Types.new_recipe([Types.ITEM.COIN], Types.ITEM.WHEAT, 1, 60))
-			return Types.new_factory(type, recipes)
+			recipes.append(Recipe.new([Types.ITEM.COIN], Types.ITEM.WHEAT, 1, 60))
+			return Factory.new(type, recipes)
 		Types.POI_TYPES.LUMBERJACK:
-			recipes.append(Types.new_recipe([Types.ITEM.COIN, Types.ITEM.BREAD], Types.ITEM.WOOD, 1, 15))
-			return Types.new_factory(type, recipes)
+			recipes.append(Recipe.new([Types.ITEM.COIN, Types.ITEM.BREAD], Types.ITEM.WOOD, 1, 15))
+			return Factory.new(type, recipes)
 		Types.POI_TYPES.ORCHARD:
-			recipes.append(Types.new_recipe([], Types.ITEM.APPLE, 1, 60*4, true))
-			recipes.append(Types.new_recipe([Types.ITEM.COIN], Types.ITEM.APPLE, 1, 15))
-			return Types.new_factory(type, recipes)
+			recipes.append(Recipe.new([], Types.ITEM.APPLE, 1, 60*4, true))
+			recipes.append(Recipe.new([Types.ITEM.COIN], Types.ITEM.APPLE, 1, 15))
+			return Factory.new(type, recipes)
 		Types.POI_TYPES.WINDMILL:
-			recipes.append(Types.new_recipe([Types.ITEM.WHEAT], Types.ITEM.FLOUR, 1, 30))
-			return Types.new_factory(type, recipes)
+			recipes.append(Recipe.new([Types.ITEM.WHEAT], Types.ITEM.FLOUR, 1, 30))
+			return Factory.new(type, recipes)
 		Types.POI_TYPES.PORT:
-			recipes.append(Types.new_recipe([Types.ITEM.COIN], Types.ITEM.FISH, 1, 60))
-			return Types.new_factory(type, recipes)
+			recipes.append(Recipe.new([Types.ITEM.COIN], Types.ITEM.FISH, 1, 60))
+			return Factory.new(type, recipes)
 		Types.POI_TYPES.MARKET:
-			recipes.append(Types.new_recipe([Types.ITEM.FISH], Types.ITEM.COIN, 2, 0))
-			recipes.append(Types.new_recipe([Types.ITEM.WOOD], Types.ITEM.COIN, 6, 0))
-			recipes.append(Types.new_recipe([Types.ITEM.APPLE], Types.ITEM.COIN, 1, 0))
-			recipes.append(Types.new_recipe([Types.ITEM.BREAD], Types.ITEM.COIN, 4, 0))
-			return Types.new_factory(type, recipes)
+			recipes.append(Recipe.new([Types.ITEM.FISH], Types.ITEM.COIN, 2, 0))
+			recipes.append(Recipe.new([Types.ITEM.WOOD], Types.ITEM.COIN, 6, 0))
+			recipes.append(Recipe.new([Types.ITEM.APPLE], Types.ITEM.COIN, 1, 0))
+			recipes.append(Recipe.new([Types.ITEM.BREAD], Types.ITEM.COIN, 4, 0))
+			return Factory.new(type, recipes)
 	return null

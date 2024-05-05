@@ -7,7 +7,7 @@ const HORSE_ICON_CODE: String = "[img]res://assets/icons/horse.png[/img] "
 @onready var disabled_button = $DisabledButton
 @onready var make_button = $MakeButton
 
-var recipe: Types.Recipe
+var recipe: Recipe
 var poi_id: Vector2i
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,7 +37,6 @@ func _ready():
 	else:
 		make_button.visible = true
 		disabled_button.visible = false
-
 
 func _on_make_button_pressed():
 	if recipe.player_required:
