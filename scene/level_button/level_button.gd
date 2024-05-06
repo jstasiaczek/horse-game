@@ -14,11 +14,9 @@ func set_text(value: String):
 func _on_button_up():
 	label.position.y = 0
 
-
 func _on_button_down():
 	label.position.y = 2
 
 
 func _on_pressed():
-	GameService.load_map(level)
-	
+	SignalsService.on_level_select.emit(level)

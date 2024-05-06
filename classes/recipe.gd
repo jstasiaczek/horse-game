@@ -5,6 +5,9 @@ var output: InventoryItem
 var time: int = 60
 var player_required: bool = false
 
+func is_instant() -> bool:
+	return time == 0
+
 
 func _init(inp: Array[Types.ITEM], out: Types.ITEM, out_count: int = 1, t: int = 1, req: bool = false):
 	input = inp

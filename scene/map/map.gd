@@ -4,6 +4,7 @@ const FACTORY_HUD = preload("res://scene/factory_hud/factory_hud.tscn")
 const QUEST_HUD = preload("res://scene/quest_hud/quest_hud.tscn")
 const EXIT_HUD = preload("res://scene/exit_hud/exit_hud.tscn")
 const WAIT_HUD = preload("res://scene/wait_hud/wait_hud.tscn")
+const LEVEL_DEFAULT = preload("res://level/level_default/level_default.tscn")
 
 @onready var canvas_layer = $CanvasLayer
 @onready var tile_map_container = $TileMapContainer
@@ -14,7 +15,11 @@ var prev_hover_cell: Vector2i = Vector2i.ZERO
 var drag_start_pos: Vector2
 
 func load_level():
-	var level = load(GameService.get_level_path()).instantiate()
+	var level
+	if GameService.get_level_path() == "":
+		level = LEVEL_DEFAULT.instantiate()
+	else:
+		level = load(GameService.get_level_path()).instantiate()
 	tile_map_container.add_child(level)
 
 func _ready():
@@ -30,6 +35,7 @@ func _ready():
 
 func on_tilemap_set():
 	tile_map = GameService.get_tilemap()
+	SignalsService.on_start_fade_out.emit()
 
 func on_set_horse_map_id(id: Vector2i):
 	horse.global_position = tile_map.map_to_local(id)

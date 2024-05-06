@@ -152,7 +152,6 @@ animations = [{
 }]
 
 [node name="Horse" type="AnimatedSprite2D"]
-position = Vector2(143, 119)
 sprite_frames = SubResource("SpriteFrames_8ku7k")
 animation = &"idile"
 autoplay = "idile"

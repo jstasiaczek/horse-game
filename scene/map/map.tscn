@@ -1,14 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://c738rhh1aatxt"]
+[gd_scene load_steps=7 format=3 uid="uid://c738rhh1aatxt"]
 
 [ext_resource type="Script" path="res://scene/map/map.gd" id="1_5omeo"]
 [ext_resource type="PackedScene" uid="uid://butfoueec6ui0" path="res://scene/horse/horse.tscn" id="3_vlw8b"]
 [ext_resource type="PackedScene" uid="uid://lvwxel8br5nr" path="res://scene/map_camera/map_camera.tscn" id="4_n2oes"]
 [ext_resource type="AudioStream" uid="uid://buyunwyif1b0w" path="res://assets/sounds/birds.mp3" id="5_a8wgk"]
 [ext_resource type="PackedScene" uid="uid://d2177c0ghual7" path="res://scene/map_hud/map_hud.tscn" id="5_moe7y"]
+[ext_resource type="Texture2D" uid="uid://c1hbf7cwgvy2m" path="res://assets/bg.png" id="6_kis3d"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_5omeo")
 metadata/_edit_horizontal_guides_ = [298.0]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("6_kis3d")
+centered = false
 
 [node name="TileMapContainer" type="Node2D" parent="."]
 

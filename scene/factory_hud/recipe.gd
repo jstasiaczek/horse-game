@@ -43,4 +43,7 @@ func _on_make_button_pressed():
 		SignalsService.on_wait_hud_display.emit(poi_id, recipe)
 	else:
 		GameService.pay_for_recipe(recipe)
-		GameService.add_recipe_to_queue(poi_id, recipe)
+		if recipe.is_instant():
+			GameService.add_item_to_output(poi_id, recipe)
+		else:
+			GameService.add_recipe_to_queue(poi_id, recipe)

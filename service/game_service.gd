@@ -161,7 +161,7 @@ func add_recipe_to_queue(id: Vector2i, recipe: Recipe):
 	SignalsService.on_factory_queue_update.emit(id)
 
 func add_item_to_output(id: Vector2i, recipe: Recipe):
-	var poi = get_poi_by_id(id)
+	var poi: Factory = get_poi_by_id(id) as Factory
 	if poi == null or poi.action_type != Types.POI_ACTON_TYPE.FACTORY:
 		return
 	poi.output = InventoryTool.add_to_inventory(poi.output, recipe.output.item, recipe.output.count)
