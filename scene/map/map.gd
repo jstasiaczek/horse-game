@@ -62,7 +62,7 @@ func on_poi_click(id: Vector2i):
 			hud.id = id
 			hud.exit = poi
 			canvas_layer.add_child(hud)
-		Types.POI_GROUP_TYPE.PASSAGE:
+		Types.POI_GROUP_TYPE.CALLBACK:
 			poi.callback.call()
 
 func on_exit_gui_close(_id: Vector2i):

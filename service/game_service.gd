@@ -13,6 +13,7 @@ const GROUP_EXIT_HUD = "EXIT_HUD"
 const MAP_CUSTOM_DATA_HORSE_STOP = "stable"
 const HORSE_TIRED_COOLDOWN: int = 60 * 4
 const MAP_PADDING: int = 64
+const DEFAULT_LEVEL_MAP_ID: int = 0
 const _tile_size: Vector2i = Vector2i(16,16)
 
 var _current_map_tile_size: Vector2i
@@ -23,6 +24,7 @@ var _horse_map_id: Vector2i
 var _horse_inventory: Array[InventoryItem] = []
 var _horse_tired: int = 0
 var _level_path: String = ""
+var _current_level_map_id: int = DEFAULT_LEVEL_MAP_ID
 
 func _ready():
 	SignalsService.on_time_tick.connect(on_time_tick)
@@ -33,8 +35,9 @@ func on_time_tick():
 	time.add_minutes(MINUTES_ADD_ON_TICK)
 
 func on_time_changed():
-	for poi_id in _pois.keys():
-		var poi = _pois[poi_id]
+	for poi_id3 in get_pois().keys():
+		var poi = _pois[poi_id3]
+		var poi_id = POI.id2(poi_id3)
 		if poi.action_type == Types.POI_GROUP_TYPE.FACTORY and poi.has_doable_queue():
 			poi.add_time(MINUTES_ADD_ON_TICK)
 			if poi.process():
@@ -105,6 +108,15 @@ func add_to_inventory(item: Types.ITEM, count: int = 1):
 
 ########### TILEMAP FUNCTIONS ##################
 
+func set_current_level_map_id(value: int):
+	_current_level_map_id = value
+
+func reset_current_level_map_id():
+	set_current_level_map_id(DEFAULT_LEVEL_MAP_ID)
+
+func get_current_level_map_id() -> int:
+	return _current_level_map_id
+
 func set_current_map_tile_size(value: Vector2i):
 	_current_map_tile_size = value
 	SignalsService.on_map_tile_size_update.emit(value)
@@ -124,12 +136,14 @@ func get_tilemap() -> TileMap:
 
 func reset_level(start_hour: int):
 	GameService.time.clear()
+	GameService.reset_current_level_map_id()
 	GameService.time.add_hours(start_hour)
 	GameService.clear_inventory()
 
 func load_tilemap(tilemap: TileMap, horse_pos: Vector2i):
 	GameService.set_tilemap(tilemap)
-	var world_tile_size: Vector2i = tilemap.get_used_rect().size
+	var used_rect: Rect2i = tilemap.get_used_rect()
+	var world_tile_size: Vector2i = used_rect.size + used_rect.position
 	GameService.set_current_map_tile_size(world_tile_size)
 	SignalsService.on_set_horse_map_id.emit(horse_pos)
 	SignalsService.on_map_path_update.emit(tilemap.get_used_cells(Types.MAP_LAYERS.PATH))
@@ -141,9 +155,13 @@ func set_pois(value: Dictionary):
 func get_pois() -> Dictionary:
 	return _pois
 
-func get_poi_by_id(id: Vector2i):
-	if _pois.has(id):
-		return _pois[id]
+func get_correct_level_map_id(id: int):
+	return id if id != -1 else _current_level_map_id
+
+func get_poi_by_id(id: Vector2i, map_id: int = -1):
+	var id3: Vector3i = POI.id3(id, get_correct_level_map_id(map_id))
+	if _pois.has(id3):
+		return _pois[id3]
 	return null
 
 func on_horse_tile_changed(id: Vector2i):

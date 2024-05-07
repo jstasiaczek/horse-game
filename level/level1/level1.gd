@@ -23,13 +23,13 @@ func create_quest():
 
 func create_level_pois():
 	var pois: Dictionary = {}
-	pois[Vector2i(8,4)] = GameService.create_default_factory(Types.POI_TYPES.MARKET)
-	pois[Vector2i(3,10)] = GameService.create_default_factory(Types.POI_TYPES.BAKERY)
-	pois[Vector2i(12,10)] = GameService.create_default_factory(Types.POI_TYPES.LUMBERJACK)
-	pois[Vector2i(28,6)] = GameService.create_default_factory(Types.POI_TYPES.ORCHARD)
-	pois[Vector2i(25,13)] = GameService.create_default_factory(Types.POI_TYPES.WINDMILL)
-	pois[Vector2i(11,16)] = GameService.create_default_factory(Types.POI_TYPES.FARM)
-	pois[Vector2i(16,20)] = GameService.create_default_factory(Types.POI_TYPES.PORT)
-	pois[Vector2i(32,9)] = create_quest()
-	pois[Vector2i(41,10)] = Exit.new("The bridge is repaired. There is nothing left to do but hit the road.")
+	pois[POI.id3(Vector2i(8,4))] = GameService.create_default_factory(Types.POI_TYPES.MARKET)
+	pois[POI.id3(Vector2i(3,10))] = GameService.create_default_factory(Types.POI_TYPES.BAKERY)
+	pois[POI.id3(Vector2i(12,10))] = GameService.create_default_factory(Types.POI_TYPES.LUMBERJACK)
+	pois[POI.id3(Vector2i(28,6))] = GameService.create_default_factory(Types.POI_TYPES.ORCHARD)
+	pois[POI.id3(Vector2i(25,13))] = GameService.create_default_factory(Types.POI_TYPES.WINDMILL)
+	pois[POI.id3(Vector2i(11,16))] = GameService.create_default_factory(Types.POI_TYPES.FARM)
+	pois[POI.id3(Vector2i(16,20))] = GameService.create_default_factory(Types.POI_TYPES.PORT)
+	pois[POI.id3(Vector2i(32,9))] = create_quest()
+	pois[POI.id3(Vector2i(41,10))] = Exit.new("The bridge is repaired. There is nothing left to do but hit the road.")
 	GameService.set_pois(pois)

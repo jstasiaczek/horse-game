@@ -9,18 +9,18 @@ func _ready():
 
 func create_level_pois():
 	var pois: Dictionary = {}
-	pois[Vector2i(15,9)] = Passage.new(func (): 
+	pois[POI.id3(Vector2i(15,9))] = Callback.new(func (): 
 		SignalsService.on_set_horse_map_id.emit(Vector2i(26,12))
 	)
-	pois[Vector2i(26,11)] = Passage.new(func (): 
+	pois[POI.id3(Vector2i(26,11))] = Callback.new(func (): 
 		SignalsService.on_set_horse_map_id.emit(Vector2i(15,10))
 	)
-	pois[Vector2i(9,9)] = Quest.new(
+	pois[POI.id3(Vector2i(9,9))] = Quest.new(
 		"Test quest",
 		"Jusc click finish...",
 		[],
 		"You made it!",
 		func(): pass,
 	)
-	pois[Vector2i(31,12)] = Exit.new("You made it!")
+	pois[POI.id3(Vector2i(31,12))] = Exit.new("You made it!")
 	GameService.set_pois(pois)

@@ -21,7 +21,7 @@ enum POI_TYPES {
 	PORT,
 	EXIT,
 	QUEST,
-	PASSAGE,
+	CALLBACK,
 }
 
 const POI_NAMES: Dictionary = {
@@ -35,14 +35,14 @@ const POI_NAMES: Dictionary = {
 	POI_TYPES.NONE: "",
 	POI_TYPES.QUEST: "Quest",
 	POI_TYPES.EXIT: "Exit",
-	POI_TYPES.PASSAGE: "Passage"
+	POI_TYPES.CALLBACK: "Passage"
 }
 
 enum POI_GROUP_TYPE {
 	FACTORY,
 	QUEST,
 	EXIT,
-	PASSAGE,
+	CALLBACK,
 }
 
 enum ITEM {

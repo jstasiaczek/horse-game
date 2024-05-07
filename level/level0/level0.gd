@@ -19,9 +19,9 @@ func _ready():
 
 func create_level_pois():
 	var pois: Dictionary = {}
-	pois[Vector2i(10,6)] = create_quest1()
-	pois[Vector2i(24,9)] = create_quest2()
-	pois[Vector2i(42,7)] = create_quest3()
+	pois[POI.id3(Vector2i(10,6))] = create_quest1()
+	pois[POI.id3(Vector2i(24,9))] = create_quest2()
+	pois[POI.id3(Vector2i(42,7))] = create_quest3()
 	var market: Factory = GameService.create_default_factory(Types.POI_TYPES.MARKET)
 	market.recipes = []
 	market.recipes.append(Recipe.new(
@@ -29,12 +29,12 @@ func create_level_pois():
 		Types.ITEM.WHEAT,
 		1,
 		0))
-	pois[Vector2i(43,19)] = market
-	pois[Vector2i(34,16)] = GameService.create_default_factory(Types.POI_TYPES.WINDMILL)
-	pois[Vector2i(27,17)] = GameService.create_default_factory(Types.POI_TYPES.BAKERY)
-	pois[Vector2i(27,17)] = GameService.create_default_factory(Types.POI_TYPES.BAKERY)
-	pois[Vector2i(29,21)] = create_quest4()
-	pois[Vector2i(25,31)] = Exit.new("Boat is ready, you can go...")
+	pois[POI.id3(Vector2i(43,19))] = market
+	pois[POI.id3(Vector2i(34,16))] = GameService.create_default_factory(Types.POI_TYPES.WINDMILL)
+	pois[POI.id3(Vector2i(27,17))] = GameService.create_default_factory(Types.POI_TYPES.BAKERY)
+	pois[POI.id3(Vector2i(27,17))] = GameService.create_default_factory(Types.POI_TYPES.BAKERY)
+	pois[POI.id3(Vector2i(29,21))] = create_quest4()
+	pois[POI.id3(Vector2i(25,31))] = Exit.new("Boat is ready, you can go...")
 	GameService.set_pois(pois)
 
 func create_quest4() -> Quest:
