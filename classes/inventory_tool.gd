@@ -10,9 +10,9 @@ static func has_in_inventory(inventory: Array[InventoryItem], item: Types.ITEM, 
 			return true
 	return false
 
-static func can_pay_for_recipe(inventory: Array[InventoryItem], recipe: Recipe) -> bool:
+static func can_pay_for_recipe(inventory: Array[InventoryItem], recipe: Recipe, recipe_count: int = 1) -> bool:
 	for item in recipe.input:
-		if not has_in_inventory(inventory, item, 1):
+		if not has_in_inventory(inventory, item, recipe_count):
 			return false
 	return true
 

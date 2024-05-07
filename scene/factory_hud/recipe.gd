@@ -4,13 +4,22 @@ const PLUS_ICON_CODE: String = "[img]res://assets/icons/plus.png[/img] "
 const HORSE_ICON_CODE: String = "[img]res://assets/icons/horse.png[/img] "
 
 @onready var reciepe_desc = $ReciepeDesc
-@onready var disabled_button = $DisabledButton
 @onready var make_button = $MakeButton
 
 var recipe: Recipe
 var poi_id: Vector2i
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
+	create_desc()
+	setup_buttons()
+
+func setup_buttons():
+	if GameService.can_pay_for_recipe(recipe) == false or (recipe.player_required and GameService.is_horse_tired()):
+		make_button.disabled = true
+	else:
+		make_button.disabled = false
+
+func create_desc():
 	var desc: String = "[right]"
 	if recipe == null:
 		return
@@ -31,19 +40,21 @@ func _ready():
 	desc += "[img]"+Types.get_item_icon_path(recipe.output.item)+"[/img]"
 	desc += "[/right]"
 	reciepe_desc.text = desc + "  "
-	if GameService.can_pay_for_recipe(recipe) == false or (recipe.player_required and GameService.is_horse_tired()):
-		make_button.visible = false
-		disabled_button.visible = true
-	else:
-		make_button.visible = true
-		disabled_button.visible = false
 
-func _on_make_button_pressed():
-	if recipe.player_required:
-		SignalsService.on_wait_hud_display.emit(poi_id, recipe)
-	else:
+func process_recipe(n: int = 1):
+	for _i in range(n):
 		GameService.pay_for_recipe(recipe)
 		if recipe.is_instant():
 			GameService.add_item_to_output(poi_id, recipe)
 		else:
 			GameService.add_recipe_to_queue(poi_id, recipe)
+
+func _on_make_button_pressed():
+	if recipe.player_required:
+		SignalsService.on_wait_hud_display.emit(poi_id, recipe)
+		return
+	process_recipe()
+
+
+func _on_make_3_button_pressed():
+	process_recipe(3)

@@ -20,7 +20,8 @@ enum POI_TYPES {
 	FARM,
 	PORT,
 	EXIT,
-	QUEST
+	QUEST,
+	PASSAGE,
 }
 
 const POI_NAMES: Dictionary = {
@@ -33,13 +34,15 @@ const POI_NAMES: Dictionary = {
 	POI_TYPES.PORT: "Port",
 	POI_TYPES.NONE: "",
 	POI_TYPES.QUEST: "Quest",
-	POI_TYPES.EXIT: "Exit"
+	POI_TYPES.EXIT: "Exit",
+	POI_TYPES.PASSAGE: "Passage"
 }
 
-enum POI_ACTON_TYPE {
+enum POI_GROUP_TYPE {
 	FACTORY,
 	QUEST,
-	EXIT
+	EXIT,
+	PASSAGE,
 }
 
 enum ITEM {

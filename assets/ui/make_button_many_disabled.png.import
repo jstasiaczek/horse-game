@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qodmkn6qiotv"
-path="res://.godot/imported/make_button.png-83a92f7e780e53e1c26f2f13a3d92d38.ctex"
+uid="uid://rcnknbxuf0k"
+path="res://.godot/imported/make_button_many_disabled.png-8386a18276af8bba835ce8a1496ce32b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/make_button.png"
-dest_files=["res://.godot/imported/make_button.png-83a92f7e780e53e1c26f2f13a3d92d38.ctex"]
+source_file="res://assets/ui/make_button_many_disabled.png"
+dest_files=["res://.godot/imported/make_button_many_disabled.png-8386a18276af8bba835ce8a1496ce32b.ctex"]
 
 [params]
 

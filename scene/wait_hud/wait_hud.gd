@@ -9,10 +9,8 @@ var recipe: Recipe
 var start_time: int
 var is_finished: bool = false
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	start_time = GameService.time.get_minutes()
-	# add_minutes()
 	SignalsService.on_time_changed.connect(on_time_changed)
 	fade_in()
 
@@ -45,7 +43,6 @@ func on_time_changed():
 	GameService.add_item_to_output(poi_id, recipe)
 	GameService.set_horse_tired()
 	fade_out()
-	
 
 func _on_timer_timeout():
 	GameService.time.add_minutes(GameService.MINUTES_ADD_ON_TICK)

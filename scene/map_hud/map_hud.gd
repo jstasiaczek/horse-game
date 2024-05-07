@@ -42,7 +42,7 @@ func on_poi_hover(type: Types.POI_TYPES, id: Vector2i):
 		poi_info.visible = false
 	else:
 		poi_info.visible = true
-	if poi != null and poi.action_type == Types.POI_ACTON_TYPE.FACTORY:
+	if poi != null and poi.action_type == Types.POI_GROUP_TYPE.FACTORY:
 		if poi.has_doable_queue():
 			desc += " "+ GEAR_ICON_CODE
 		desc += "\n"

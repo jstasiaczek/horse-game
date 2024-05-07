@@ -35,7 +35,7 @@ func on_time_tick():
 func on_time_changed():
 	for poi_id in _pois.keys():
 		var poi = _pois[poi_id]
-		if poi.action_type == Types.POI_ACTON_TYPE.FACTORY and poi.has_doable_queue():
+		if poi.action_type == Types.POI_GROUP_TYPE.FACTORY and poi.has_doable_queue():
 			poi.add_time(MINUTES_ADD_ON_TICK)
 			if poi.process():
 				SignalsService.on_factory_output_update.emit(poi_id)
@@ -80,8 +80,8 @@ func get_inventory() -> Array[InventoryItem]:
 func clear_inventory():
 	_horse_inventory = InventoryTool.get_empty()
 
-func can_pay_for_recipe(recipe: Recipe) -> bool:
-	return InventoryTool.can_pay_for_recipe(_horse_inventory, recipe)
+func can_pay_for_recipe(recipe: Recipe, recipe_count: int = 1) -> bool:
+	return InventoryTool.can_pay_for_recipe(_horse_inventory, recipe, recipe_count)
 
 func pay_for_recipe(recipe: Recipe) -> bool:
 	if can_pay_for_recipe(recipe) == false:
@@ -155,21 +155,21 @@ func get_horse_map_id() -> Vector2i:
 ############ FACTORY FUNCTIONS ############
 func add_recipe_to_queue(id: Vector2i, recipe: Recipe):
 	var poi = get_poi_by_id(id)
-	if poi == null or poi.action_type != Types.POI_ACTON_TYPE.FACTORY:
+	if poi == null or poi.action_type != Types.POI_GROUP_TYPE.FACTORY:
 		return
 	poi.recipe_queue.append(recipe)
 	SignalsService.on_factory_queue_update.emit(id)
 
 func add_item_to_output(id: Vector2i, recipe: Recipe):
 	var poi: Factory = get_poi_by_id(id) as Factory
-	if poi == null or poi.action_type != Types.POI_ACTON_TYPE.FACTORY:
+	if poi == null or poi.action_type != Types.POI_GROUP_TYPE.FACTORY:
 		return
 	poi.output = InventoryTool.add_to_inventory(poi.output, recipe.output.item, recipe.output.count)
 	SignalsService.on_factory_output_update.emit(id)
 
 func clear_factory_output(id: Vector2i):
 	var poi = get_poi_by_id(id)
-	if poi == null or poi.action_type != Types.POI_ACTON_TYPE.FACTORY:
+	if poi == null or poi.action_type != Types.POI_GROUP_TYPE.FACTORY:
 		return
 	poi.output.clear()
 	SignalsService.on_factory_output_update.emit(id)

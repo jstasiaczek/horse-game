@@ -1,7 +1,7 @@
 class_name Factory
 
 var type: Types.POI_TYPES
-var action_type: Types.POI_ACTON_TYPE = Types.POI_ACTON_TYPE.FACTORY
+var action_type: Types.POI_GROUP_TYPE = Types.POI_GROUP_TYPE.FACTORY
 var recipe_queue: Array[Recipe] = []
 var recipes: Array[Recipe] = []
 var output: Array[InventoryItem] = []

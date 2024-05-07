@@ -8,6 +8,7 @@ var next_path_id: Vector2i = Vector2i.ZERO
 var next_path_pos: Vector2 = Vector2.ZERO
 
 func _ready():
+	SignalsService.on_set_horse_map_id.connect(on_set_horse_map_id)
 	SignalsService.on_tilemap_set.connect(on_tilemap_set)
 	SignalsService.on_set_target.connect(on_set_target)
 	SignalsService.on_horse_tile_changed.connect(on_horse_tile_changed)
@@ -19,6 +20,11 @@ func on_horse_tile_changed(id: Vector2i):
 	if poi == null:
 		return
 	SignalsService.on_poi_click.emit(id)
+
+
+func on_set_horse_map_id(id: Vector2i):
+	global_position = GameService.get_tilemap().map_to_local(id)
+	update_horse_map_id()
 
 func on_tilemap_set():
 	tilemap = GameService.get_tilemap()
@@ -42,7 +48,6 @@ func get_horse_path() -> Array[Vector2i]:
 func _process(delta):
 	if tilemap == null:
 		return
-		
 	if not has_horse_path():
 		horse_sound.stop()
 		play("idile")

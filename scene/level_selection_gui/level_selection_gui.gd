@@ -12,6 +12,10 @@ var levels: Array[Dictionary] = [
 		"name": "1",
 		"path": "res://level/level1/level1.tscn",
 	},
+	{
+		"name": "Passage",
+		"path": "res://level/level2/level2.tscn",
+	},
 ] 
 
 func _ready():

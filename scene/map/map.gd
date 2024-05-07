@@ -28,7 +28,6 @@ func _ready():
 	SignalsService.on_factory_gui_close.connect(on_factory_gui_close)
 	SignalsService.on_wait_hud_display.connect(on_wait_hud_display)
 	SignalsService.on_wait_hud_close.connect(on_wait_hud_close)
-	SignalsService.on_set_horse_map_id.connect(on_set_horse_map_id)
 	SignalsService.on_quest_gui_close.connect(on_quest_gui_close)
 	SignalsService.on_exit_gui_close.connect(on_exit_gui_close)
 	load_level()
@@ -37,8 +36,6 @@ func on_tilemap_set():
 	tile_map = GameService.get_tilemap()
 	SignalsService.on_start_fade_out.emit()
 
-func on_set_horse_map_id(id: Vector2i):
-	horse.global_position = tile_map.map_to_local(id)
 
 func on_wait_hud_display(id: Vector2i, recipe: Recipe):
 	var hud = WAIT_HUD.instantiate()
@@ -51,20 +48,22 @@ func on_poi_click(id: Vector2i):
 	if poi == null:
 		return
 	match poi.action_type:
-		Types.POI_ACTON_TYPE.FACTORY:
+		Types.POI_GROUP_TYPE.FACTORY:
 			var hud = FACTORY_HUD.instantiate()
 			hud.id = id
 			canvas_layer.add_child(hud)
-		Types.POI_ACTON_TYPE.QUEST:
+		Types.POI_GROUP_TYPE.QUEST:
 			var hud = QUEST_HUD.instantiate()
 			hud.id = id
 			hud.quest = poi
 			canvas_layer.add_child(hud)
-		Types.POI_ACTON_TYPE.EXIT:
+		Types.POI_GROUP_TYPE.EXIT:
 			var hud = EXIT_HUD.instantiate()
 			hud.id = id
 			hud.exit = poi
 			canvas_layer.add_child(hud)
+		Types.POI_GROUP_TYPE.PASSAGE:
+			poi.callback.call()
 
 func on_exit_gui_close(_id: Vector2i):
 	close_gui_by_group(GameService.GROUP_EXIT_HUD)

@@ -53,7 +53,7 @@ func update_title():
 
 func get_factory(id):
 	var config: Factory = GameService.get_poi_by_id(id)
-	if config == null or config.action_type != Types.POI_ACTON_TYPE.FACTORY:
+	if config == null or config.action_type != Types.POI_GROUP_TYPE.FACTORY:
 		return null
 	return config
 
@@ -103,7 +103,7 @@ func _on_exit_button_pressed():
 
 func _on_collect_button_pressed():
 	var poi = GameService.get_poi_by_id(id)
-	if poi == null or poi.action_type != Types.POI_ACTON_TYPE.FACTORY:
+	if poi == null or poi.action_type != Types.POI_GROUP_TYPE.FACTORY:
 		return
 	for el in poi.output:
 		GameService.add_to_inventory(el.item, el.count)

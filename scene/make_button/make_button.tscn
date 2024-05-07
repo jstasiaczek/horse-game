@@ -1,0 +1,33 @@
+[gd_scene load_steps=8 format=3 uid="uid://bx7tfsmhqcl2d"]
+
+[ext_resource type="Texture2D" uid="uid://qodmkn6qiotv" path="res://assets/ui/make_button.png" id="1_07xkc"]
+[ext_resource type="Texture2D" uid="uid://c6bqnoi0si7gp" path="res://assets/ui/make_button-pressed.png" id="2_8bnu4"]
+[ext_resource type="Texture2D" uid="uid://1n4vjw2cqo" path="res://assets/ui/make_button-hover.png" id="3_tdtoi"]
+[ext_resource type="Texture2D" uid="uid://ddiwk616ni4cl" path="res://assets/ui/make_button_disabled.png" id="4_thucr"]
+[ext_resource type="Script" path="res://scene/make_button/make_button.gd" id="5_pj0bq"]
+[ext_resource type="FontFile" uid="uid://cialo7t5a5hue" path="res://assets/fonts/Minecraft.ttf" id="6_b1mdc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fia18"]
+font = ExtResource("6_b1mdc")
+font_size = 24
+
+[node name="MakeButton" type="TextureButton"]
+offset_right = 32.0
+offset_bottom = 32.0
+texture_normal = ExtResource("1_07xkc")
+texture_pressed = ExtResource("2_8bnu4")
+texture_hover = ExtResource("3_tdtoi")
+texture_disabled = ExtResource("4_thucr")
+script = ExtResource("5_pj0bq")
+type = 1
+
+[node name="Count" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_fia18")
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,7 +1,7 @@
 class_name Quest
 
 var type: Types.POI_TYPES = Types.POI_TYPES.QUEST
-var action_type: Types.POI_ACTON_TYPE = Types.POI_ACTON_TYPE.QUEST
+var action_type: Types.POI_GROUP_TYPE = Types.POI_GROUP_TYPE.QUEST
 var title: String
 var desc: String
 var input: Array[InventoryItem]
