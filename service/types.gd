@@ -22,6 +22,9 @@ enum POI_TYPES {
 	EXIT,
 	QUEST,
 	CALLBACK,
+	MINE,
+	BLACKSMITH,
+	ALCHEMIST,
 }
 
 const POI_NAMES: Dictionary = {
@@ -35,7 +38,10 @@ const POI_NAMES: Dictionary = {
 	POI_TYPES.NONE: "",
 	POI_TYPES.QUEST: "Quest",
 	POI_TYPES.EXIT: "Exit",
-	POI_TYPES.CALLBACK: "Passage"
+	POI_TYPES.CALLBACK: "Passage",
+	POI_TYPES.MINE: "Mine",
+	POI_TYPES.BLACKSMITH: "Blacksmith",
+	POI_TYPES.ALCHEMIST: "Alchemist",
 }
 
 enum POI_GROUP_TYPE {
@@ -52,7 +58,10 @@ enum ITEM {
 	FLOUR,
 	WHEAT,
 	FISH,
-	COIN
+	COIN,
+	IRON,
+	PICKAXE,
+	TNT
 }
 
 func _get_image_small(small: bool):
@@ -76,6 +85,12 @@ func get_item_icon_path(item: ITEM, small: bool = false) -> String:
 			return "res://assets/items/"+_get_image_small(small)+"wheat.png"
 		ITEM.WOOD:
 			return "res://assets/items/"+_get_image_small(small)+"wood.png"
+		ITEM.IRON:
+			return "res://assets/items/"+_get_image_small(small)+"iron.png"
+		ITEM.PICKAXE:
+			return "res://assets/items/"+_get_image_small(small)+"pickaxe.png"
+		ITEM.TNT:
+			return "res://assets/items/"+_get_image_small(small)+"tnt.png"
 	return "res://assets/icons/question_mark.png"
 
 func get_poi_name_by_type(type: POI_TYPES) -> String:

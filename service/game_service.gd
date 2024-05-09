@@ -148,6 +148,11 @@ func load_tilemap(tilemap: TileMap, horse_pos: Vector2i):
 	SignalsService.on_set_horse_map_id.emit(horse_pos)
 	SignalsService.on_map_path_update.emit(tilemap.get_used_cells(Types.MAP_LAYERS.PATH))
 
+func change_level_map(tilemap: TileMap, horse_map_id: Vector2i, map_id: int):
+	SignalsService.on_set_target.emit(Vector2i.ZERO)
+	GameService.set_current_level_map_id(map_id)
+	GameService.load_tilemap(tilemap, horse_map_id)
+
 ################# POI FUNCTIONS #####################
 func set_pois(value: Dictionary):
 	_pois = value

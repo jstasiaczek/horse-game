@@ -13,7 +13,7 @@ var levels: Array[Dictionary] = [
 		"path": "res://level/level1/level1.tscn",
 	},
 	{
-		"name": "Passage",
+		"name": "2",
 		"path": "res://level/level2/level2.tscn",
 	},
 ] 

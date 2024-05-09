@@ -26,6 +26,10 @@ PathService="*res://service/path_service.gd"
 
 gdscript/warnings/integer_division=0
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 right_click={

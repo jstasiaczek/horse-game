@@ -1,6 +1,6 @@
 extends TileMap
 
-const HORSE_START_MAP_ID: Vector2i = Vector2i(4,6)
+const HORSE_START_MAP_ID: Vector2i = Vector2i(4,4)
 
 func _ready():
 	create_level_pois()
