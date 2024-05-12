@@ -12,7 +12,7 @@ func _ready():
 	switch_map(true)
 	GameService.reset_level(7)
 	GameService.set_current_level_map_id(UNDERGROUND_MAP_ID)
-	GameService.load_tilemap(underground_map, HORSE_START_MAP_ID)
+	GameService.load_tilemap(underground_map, HORSE_START_MAP_ID, true)
 
 func switch_map(is_underground: bool = false):
 	base_map.visible = not is_underground
@@ -138,12 +138,12 @@ func create_passages(pois: Dictionary):
 	# return to enterance passage
 	pois[POI.id3(Vector2i(5,7))] = Callback.new(func ():
 		switch_map(true)
-		GameService.change_level_map(underground_map, Vector2i(22,4), UNDERGROUND_MAP_ID)
+		GameService.change_level_map(underground_map, Vector2i(22,4), UNDERGROUND_MAP_ID, true)
 	)
 	# undermountain passage enterance
 	pois[POI.id3(Vector2i(19,10))] = Callback.new(func ():
 		switch_map(true)
-		GameService.change_level_map(underground_map, Vector2i(28,16), UNDERGROUND_MAP_ID)
+		GameService.change_level_map(underground_map, Vector2i(28,16), UNDERGROUND_MAP_ID, true)
 	)
 	# undermountain passage exit - main land
 	pois[POI.id3(Vector2i(27,16), UNDERGROUND_MAP_ID)] = Callback.new(func ():
@@ -160,7 +160,7 @@ func create_passages(pois: Dictionary):
 	# undermountain passage enter - alchemy
 	pois[POI.id3(Vector2i(22,5))] = Callback.new(func ():
 		switch_map(true)
-		GameService.change_level_map(underground_map, Vector2i(38,11), UNDERGROUND_MAP_ID)
+		GameService.change_level_map(underground_map, Vector2i(38,11), UNDERGROUND_MAP_ID, true)
 	)
 
 	# undermountain passage exit - port
@@ -172,5 +172,5 @@ func create_passages(pois: Dictionary):
 	# undermountain passage enter - port
 	pois[POI.id3(Vector2i(23,11))] = Callback.new(func ():
 		switch_map(true)
-		GameService.change_level_map(underground_map, Vector2i(43,16), UNDERGROUND_MAP_ID)
+		GameService.change_level_map(underground_map, Vector2i(43,16), UNDERGROUND_MAP_ID, true)
 	)

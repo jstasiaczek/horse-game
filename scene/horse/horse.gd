@@ -1,5 +1,6 @@
 extends AnimatedSprite2D
 @onready var horse_sound = $HorseSound
+@onready var internal_light = $InternalLight
 
 var horse_map_id: Vector2i
 var tilemap: TileMap
@@ -12,6 +13,10 @@ func _ready():
 	SignalsService.on_tilemap_set.connect(on_tilemap_set)
 	SignalsService.on_set_target.connect(on_set_target)
 	SignalsService.on_horse_tile_changed.connect(on_horse_tile_changed)
+	SignalsService.on_horse_light_change.connect(on_horse_light_change)
+
+func on_horse_light_change(value: bool):
+	internal_light.visible = value
 
 func on_horse_tile_changed(id: Vector2i):
 	if id != target:

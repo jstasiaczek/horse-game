@@ -140,18 +140,19 @@ func reset_level(start_hour: int):
 	GameService.time.add_hours(start_hour)
 	GameService.clear_inventory()
 
-func load_tilemap(tilemap: TileMap, horse_pos: Vector2i):
+func load_tilemap(tilemap: TileMap, horse_pos: Vector2i, is_dark: bool = false):
 	GameService.set_tilemap(tilemap)
 	var used_rect: Rect2i = tilemap.get_used_rect()
 	var world_tile_size: Vector2i = used_rect.size + used_rect.position
 	GameService.set_current_map_tile_size(world_tile_size)
 	SignalsService.on_set_horse_map_id.emit(horse_pos)
 	SignalsService.on_map_path_update.emit(tilemap.get_used_cells(Types.MAP_LAYERS.PATH))
+	SignalsService.on_horse_light_change.emit(is_dark)
 
-func change_level_map(tilemap: TileMap, horse_map_id: Vector2i, map_id: int):
+func change_level_map(tilemap: TileMap, horse_map_id: Vector2i, map_id: int, is_dark: bool = false):
 	SignalsService.on_set_target.emit(Vector2i.ZERO)
 	GameService.set_current_level_map_id(map_id)
-	GameService.load_tilemap(tilemap, horse_map_id)
+	GameService.load_tilemap(tilemap, horse_map_id, is_dark)
 
 ################# POI FUNCTIONS #####################
 func set_pois(value: Dictionary):

@@ -8,6 +8,7 @@ signal on_tilemap_set
 #horse
 signal on_horse_tired
 signal on_horse_rested
+signal on_horse_light_change(value: bool)
 
 # map id signals
 signal on_set_target(value: Vector2i)

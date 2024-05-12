@@ -1,8 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://butfoueec6ui0"]
+[gd_scene load_steps=23 format=3 uid="uid://butfoueec6ui0"]
 
 [ext_resource type="Texture2D" uid="uid://btjdbo485gpgo" path="res://assets/MiniWorldSprites/Animals/Horse(32x32).png" id="1_4g6dm"]
 [ext_resource type="Script" path="res://scene/horse/horse.gd" id="2_70uj3"]
 [ext_resource type="AudioStream" uid="uid://dgdrbrbfpxlgi" path="res://assets/sounds/horse_walking.mp3" id="3_0l4ri"]
+[ext_resource type="Texture2D" uid="uid://uthgalpmjris" path="res://assets/internal_light.png" id="4_hevoy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_04e4a"]
 atlas = ExtResource("1_4g6dm")
@@ -161,3 +162,8 @@ script = ExtResource("2_70uj3")
 [node name="HorseSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_0l4ri")
 volume_db = -10.0
+
+[node name="InternalLight" type="PointLight2D" parent="."]
+energy = 0.3
+texture = ExtResource("4_hevoy")
+offset = Vector2(0, -3)
