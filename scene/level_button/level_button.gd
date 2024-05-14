@@ -15,6 +15,7 @@ func _on_button_up():
 	label.position.y = 0
 
 func _on_button_down():
+	SignalsService.on_button_click.emit()
 	label.position.y = 2
 
 

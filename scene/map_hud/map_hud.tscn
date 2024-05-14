@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://d2177c0ghual7"]
+[gd_scene load_steps=5 format=3 uid="uid://d2177c0ghual7"]
 
 [ext_resource type="Script" path="res://scene/map_hud/map_hud.gd" id="1_10bk5"]
 [ext_resource type="PackedScene" uid="uid://cdjwem2g3dtbj" path="res://scene/text_panel/text_panel.tscn" id="2_4xe7l"]
 [ext_resource type="PackedScene" uid="uid://bt3ooka2esnfu" path="res://scene/scene_transition/scene_transition.tscn" id="3_pemcj"]
+[ext_resource type="PackedScene" uid="uid://fnt32c4huobn" path="res://scene/ui_player/ui_player.tscn" id="4_xbsi6"]
 
 [node name="MapHud" type="Control"]
 layout_mode = 3
@@ -81,3 +82,5 @@ offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="UiPlayer" parent="." instance=ExtResource("4_xbsi6")]

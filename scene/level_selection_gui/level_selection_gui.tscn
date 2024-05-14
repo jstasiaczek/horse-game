@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c66wffxv23o2a"]
+[gd_scene load_steps=6 format=3 uid="uid://c66wffxv23o2a"]
 
 [ext_resource type="Script" path="res://scene/level_selection_gui/level_selection_gui.gd" id="1_8oxcj"]
 [ext_resource type="Texture2D" uid="uid://f7766npel34c" path="res://assets/background.png" id="1_iajoq"]
 [ext_resource type="LabelSettings" uid="uid://d1nwvtodgwtnj" path="res://assets/mc_huge_text_white.tres" id="2_vfe0f"]
 [ext_resource type="PackedScene" uid="uid://bt3ooka2esnfu" path="res://scene/scene_transition/scene_transition.tscn" id="4_1gy5x"]
+[ext_resource type="PackedScene" uid="uid://fnt32c4huobn" path="res://scene/ui_player/ui_player.tscn" id="5_ofnm3"]
 
 [node name="LevelSelectionGui" type="Control"]
 layout_mode = 3
@@ -54,3 +55,5 @@ alignment = 1
 
 [node name="SceneTransition" parent="." instance=ExtResource("4_1gy5x")]
 layout_mode = 1
+
+[node name="UiPlayer" parent="." instance=ExtResource("5_ofnm3")]

@@ -27,7 +27,6 @@ func _ready():
 func _on_button_up():
 	position.y = 0
 
-
 func _on_button_down():
 	position.y = 4
-	pass # Replace with function body.
+	SignalsService.on_button_click.emit()

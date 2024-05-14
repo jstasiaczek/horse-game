@@ -37,6 +37,7 @@ signal on_exit_gui_close(id: Vector2i)
 signal on_wait_hud_display(id: Vector2i, recipe: Recipe)
 signal on_wait_hud_close
 signal on_level_select(map_path: String)
+signal on_button_click
 
 # transition
 signal on_start_fade_in

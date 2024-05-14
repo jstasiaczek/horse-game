@@ -36,3 +36,7 @@ func do_disabled(value: bool):
 	else:
 		count_label.modulate.a = 1.0
 	disabled = value
+
+
+func _on_button_down():
+	SignalsService.on_button_click.emit()

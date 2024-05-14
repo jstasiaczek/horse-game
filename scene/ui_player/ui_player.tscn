@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://fnt32c4huobn"]
+
+[ext_resource type="AudioStream" uid="uid://c55cuin1p6stf" path="res://assets/sounds/click.mp3" id="1_gpwma"]
+[ext_resource type="Script" path="res://scene/ui_player/ui_player.gd" id="2_4ajrh"]
+
+[node name="UiPlayer" type="AudioStreamPlayer"]
+stream = ExtResource("1_gpwma")
+volume_db = -6.0
+script = ExtResource("2_4ajrh")
