@@ -13,6 +13,7 @@ func _ready():
 	GameService.reset_level(7)
 	GameService.set_current_level_map_id(UNDERGROUND_MAP_ID)
 	GameService.load_tilemap(underground_map, HORSE_START_MAP_ID, true)
+	SignalsService.on_background_sound_change.emit(Types.BACKGROUND_SOUND.CAVE)
 
 func switch_map(is_underground: bool = false):
 	base_map.visible = not is_underground
@@ -134,43 +135,51 @@ func create_passages(pois: Dictionary):
 	pois[POI.id3(Vector2i(22,3), UNDERGROUND_MAP_ID)] = Callback.new(func ():
 		switch_map()
 		GameService.change_level_map(base_map, Vector2i(6,7), GameService.DEFAULT_LEVEL_MAP_ID)
+		SignalsService.on_background_sound_change.emit(Types.BACKGROUND_SOUND.BIRDS)
 	)
 	# return to enterance passage
 	pois[POI.id3(Vector2i(5,7))] = Callback.new(func ():
 		switch_map(true)
 		GameService.change_level_map(underground_map, Vector2i(22,4), UNDERGROUND_MAP_ID, true)
+		SignalsService.on_background_sound_change.emit(Types.BACKGROUND_SOUND.CAVE)
 	)
 	# undermountain passage enterance
 	pois[POI.id3(Vector2i(19,10))] = Callback.new(func ():
 		switch_map(true)
 		GameService.change_level_map(underground_map, Vector2i(28,16), UNDERGROUND_MAP_ID, true)
+		SignalsService.on_background_sound_change.emit(Types.BACKGROUND_SOUND.CAVE)
 	)
 	# undermountain passage exit - main land
 	pois[POI.id3(Vector2i(27,16), UNDERGROUND_MAP_ID)] = Callback.new(func ():
 		switch_map()
 		GameService.change_level_map(base_map, Vector2i(18,10), GameService.DEFAULT_LEVEL_MAP_ID)
+		SignalsService.on_background_sound_change.emit(Types.BACKGROUND_SOUND.BIRDS)
 	)
 
 	# undermountain passage exit - alchemy
 	pois[POI.id3(Vector2i(39,11), UNDERGROUND_MAP_ID)] = Callback.new(func ():
 		switch_map()
 		GameService.change_level_map(base_map, Vector2i(23,5), GameService.DEFAULT_LEVEL_MAP_ID)
+		SignalsService.on_background_sound_change.emit(Types.BACKGROUND_SOUND.BIRDS)
 	)
 
 	# undermountain passage enter - alchemy
 	pois[POI.id3(Vector2i(22,5))] = Callback.new(func ():
 		switch_map(true)
 		GameService.change_level_map(underground_map, Vector2i(38,11), UNDERGROUND_MAP_ID, true)
+		SignalsService.on_background_sound_change.emit(Types.BACKGROUND_SOUND.CAVE)
 	)
 
 	# undermountain passage exit - port
 	pois[POI.id3(Vector2i(44,16), UNDERGROUND_MAP_ID)] = Callback.new(func ():
 		switch_map()
 		GameService.change_level_map(base_map, Vector2i(24,11), GameService.DEFAULT_LEVEL_MAP_ID)
+		SignalsService.on_background_sound_change.emit(Types.BACKGROUND_SOUND.BIRDS)
 	)
 
 	# undermountain passage enter - port
 	pois[POI.id3(Vector2i(23,11))] = Callback.new(func ():
 		switch_map(true)
 		GameService.change_level_map(underground_map, Vector2i(43,16), UNDERGROUND_MAP_ID, true)
+		SignalsService.on_background_sound_change.emit(Types.BACKGROUND_SOUND.CAVE)
 	)

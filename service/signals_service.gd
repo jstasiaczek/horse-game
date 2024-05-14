@@ -4,6 +4,7 @@ extends Node
 signal on_map_tile_size_update(value: Vector2i)
 signal on_map_path_update(value: Array[Vector2i])
 signal on_tilemap_set
+signal on_background_sound_change(type: Types.BACKGROUND_SOUND)
 
 #horse
 signal on_horse_tired

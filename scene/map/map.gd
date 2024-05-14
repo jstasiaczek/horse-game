@@ -6,9 +6,13 @@ const EXIT_HUD = preload("res://scene/exit_hud/exit_hud.tscn")
 const WAIT_HUD = preload("res://scene/wait_hud/wait_hud.tscn")
 const LEVEL_DEFAULT = preload("res://level/level_default/level_default.tscn")
 
+const BIRDS: AudioStreamMP3 = preload("res://assets/sounds/birds.mp3")
+const CAVE: AudioStreamMP3 = preload("res://assets/sounds/cave.mp3")
+
 @onready var canvas_layer = $CanvasLayer
 @onready var tile_map_container = $TileMapContainer
 @onready var horse = $Horse
+@onready var background_music = $BackgroundMusic
 
 var tile_map: TileMap
 var prev_hover_cell: Vector2i = Vector2i.ZERO
@@ -30,7 +34,16 @@ func _ready():
 	SignalsService.on_wait_hud_close.connect(on_wait_hud_close)
 	SignalsService.on_quest_gui_close.connect(on_quest_gui_close)
 	SignalsService.on_exit_gui_close.connect(on_exit_gui_close)
+	SignalsService.on_background_sound_change.connect(on_background_sound_change)
 	load_level()
+
+func on_background_sound_change(type: Types.BACKGROUND_SOUND):
+	match type:
+		Types.BACKGROUND_SOUND.BIRDS:
+			background_music.stream = BIRDS
+		Types.BACKGROUND_SOUND.CAVE:
+			background_music.stream = CAVE
+	background_music.play()
 
 func on_tilemap_set():
 	tile_map = GameService.get_tilemap()

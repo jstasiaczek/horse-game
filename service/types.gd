@@ -64,6 +64,8 @@ enum ITEM {
 	TNT
 }
 
+enum BACKGROUND_SOUND {BIRDS, CAVE}
+
 func _get_image_small(small: bool):
 	if small:
 		return "small_"
