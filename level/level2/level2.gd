@@ -33,7 +33,7 @@ func create_factory(pois: Dictionary):
 		Types.POI_TYPES.MINE,
 		[
 			Recipe.new(
-				[Types.ITEM.COIN],
+				[InventoryItem.new(Types.ITEM.COIN)],
 				Types.ITEM.IRON,
 				1,
 				30,
@@ -45,25 +45,25 @@ func create_factory(pois: Dictionary):
 		Types.POI_TYPES.MARKET,
 		[
 			Recipe.new(
-				[Types.ITEM.FLOUR],
+				[InventoryItem.new(Types.ITEM.FLOUR)],
 				Types.ITEM.COIN,
 				2,
 				0,
 			),
 			Recipe.new(
-				[Types.ITEM.WHEAT],
+				[InventoryItem.new(Types.ITEM.WHEAT)],
 				Types.ITEM.COIN,
 				1,
 				0,
 			),
 			Recipe.new(
-				[Types.ITEM.IRON],
+				[InventoryItem.new(Types.ITEM.IRON)],
 				Types.ITEM.COIN,
 				4,
 				0,
 			),
 			Recipe.new(
-				[Types.ITEM.COIN, Types.ITEM.FLOUR],
+				[InventoryItem.new(Types.ITEM.COIN), InventoryItem.new(Types.ITEM.FLOUR)],
 				Types.ITEM.BREAD,
 				1,
 				0,
@@ -79,7 +79,7 @@ func create_factory(pois: Dictionary):
 		Types.POI_TYPES.BLACKSMITH,
 		[
 			Recipe.new(
-				[Types.ITEM.IRON, Types.ITEM.COIN],
+				[InventoryItem.new(Types.ITEM.IRON, 3), InventoryItem.new(Types.ITEM.COIN)],
 				Types.ITEM.PICKAXE,
 				1,
 				60,
@@ -90,7 +90,7 @@ func create_factory(pois: Dictionary):
 		Types.POI_TYPES.ALCHEMIST,
 		[
 			Recipe.new(
-				[Types.ITEM.COIN],
+				[InventoryItem.new(Types.ITEM.COIN, 6)],
 				Types.ITEM.TNT,
 				1,
 				60,

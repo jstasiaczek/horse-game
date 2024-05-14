@@ -25,7 +25,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="WoodPanel" parent="CC" instance=ExtResource("1_th0at")]
-custom_minimum_size = Vector2(400, 500)
+custom_minimum_size = Vector2(450, 500)
 layout_mode = 2
 
 [node name="MG" type="MarginContainer" parent="CC/WoodPanel"]

@@ -26,8 +26,10 @@ func create_desc():
 	if recipe.time > 0:
 		desc += "%.1fh " % (recipe.time / 60.0)
 	for i in range(recipe.input.size()):
-		var item = recipe.input[i]
-		desc += "[img]"+ Types.get_item_icon_path(item) +"[/img] "
+		var item: InventoryItem = recipe.input[i]
+		if item.count > 1:
+			desc += "%2d " % item.count
+		desc += "[img]"+ Types.get_item_icon_path(item.item) +"[/img] "
 		if i+1 < recipe.input.size():
 			desc += PLUS_ICON_CODE
 	if recipe.player_required:

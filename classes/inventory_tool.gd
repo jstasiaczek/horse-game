@@ -11,14 +11,14 @@ static func has_in_inventory(inventory: Array[InventoryItem], item: Types.ITEM, 
 	return false
 
 static func can_pay_for_recipe(inventory: Array[InventoryItem], recipe: Recipe, recipe_count: int = 1) -> bool:
-	for item in recipe.input:
-		if not has_in_inventory(inventory, item, recipe_count):
+	for el in recipe.input:
+		if not has_in_inventory(inventory, el.item, recipe_count * el.count):
 			return false
 	return true
 
 static func pay_for_recipe(inventory: Array[InventoryItem], recipe: Recipe) -> Array[InventoryItem]:
-	for item in recipe.input:
-		inventory = remove_from_inventory(inventory, item, 1)
+	for el in recipe.input:
+		inventory = remove_from_inventory(inventory, el.item, el.count)
 	return inventory.duplicate(true)
 
 static func remove_from_inventory(inventory: Array[InventoryItem], item: Types.ITEM, count: int = 1) -> Array[InventoryItem]:

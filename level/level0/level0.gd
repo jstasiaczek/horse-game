@@ -25,7 +25,7 @@ func create_level_pois():
 	var market: Factory = GameService.create_default_factory(Types.POI_TYPES.MARKET)
 	market.recipes = []
 	market.recipes.append(Recipe.new(
-		[Types.ITEM.APPLE],
+		[InventoryItem.new(Types.ITEM.APPLE)],
 		Types.ITEM.WHEAT,
 		1,
 		0))

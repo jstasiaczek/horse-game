@@ -202,28 +202,28 @@ func create_default_factory(type: Types.POI_TYPES):
 	var recipes: Array[Recipe] = []
 	match type:
 		Types.POI_TYPES.BAKERY:
-			recipes.append(Recipe.new([Types.ITEM.FLOUR], Types.ITEM.BREAD, 1, 15))
+			recipes.append(Recipe.new([InventoryItem.new(Types.ITEM.FLOUR)], Types.ITEM.BREAD, 1, 15))
 			return Factory.new(type, recipes)
 		Types.POI_TYPES.FARM:
-			recipes.append(Recipe.new([Types.ITEM.COIN], Types.ITEM.WHEAT, 1, 60))
+			recipes.append(Recipe.new([InventoryItem.new(Types.ITEM.COIN)], Types.ITEM.WHEAT, 1, 60))
 			return Factory.new(type, recipes)
 		Types.POI_TYPES.LUMBERJACK:
-			recipes.append(Recipe.new([Types.ITEM.COIN, Types.ITEM.BREAD], Types.ITEM.WOOD, 1, 15))
+			recipes.append(Recipe.new([InventoryItem.new(Types.ITEM.COIN), InventoryItem.new(Types.ITEM.BREAD)], Types.ITEM.WOOD, 1, 15))
 			return Factory.new(type, recipes)
 		Types.POI_TYPES.ORCHARD:
 			recipes.append(Recipe.new([], Types.ITEM.APPLE, 1, 60*4, true))
-			recipes.append(Recipe.new([Types.ITEM.COIN], Types.ITEM.APPLE, 1, 15))
+			recipes.append(Recipe.new([InventoryItem.new(Types.ITEM.COIN)], Types.ITEM.APPLE, 1, 15))
 			return Factory.new(type, recipes)
 		Types.POI_TYPES.WINDMILL:
-			recipes.append(Recipe.new([Types.ITEM.WHEAT], Types.ITEM.FLOUR, 1, 30))
+			recipes.append(Recipe.new([InventoryItem.new(Types.ITEM.WHEAT)], Types.ITEM.FLOUR, 1, 30))
 			return Factory.new(type, recipes)
 		Types.POI_TYPES.PORT:
-			recipes.append(Recipe.new([Types.ITEM.COIN], Types.ITEM.FISH, 1, 60))
+			recipes.append(Recipe.new([InventoryItem.new(Types.ITEM.COIN)], Types.ITEM.FISH, 1, 60))
 			return Factory.new(type, recipes)
 		Types.POI_TYPES.MARKET:
-			recipes.append(Recipe.new([Types.ITEM.FISH], Types.ITEM.COIN, 2, 0))
-			recipes.append(Recipe.new([Types.ITEM.WOOD], Types.ITEM.COIN, 6, 0))
-			recipes.append(Recipe.new([Types.ITEM.APPLE], Types.ITEM.COIN, 1, 0))
-			recipes.append(Recipe.new([Types.ITEM.BREAD], Types.ITEM.COIN, 4, 0))
+			recipes.append(Recipe.new([InventoryItem.new(Types.ITEM.FISH)], Types.ITEM.COIN, 2, 0))
+			recipes.append(Recipe.new([InventoryItem.new(Types.ITEM.WOOD)], Types.ITEM.COIN, 6, 0))
+			recipes.append(Recipe.new([InventoryItem.new(Types.ITEM.APPLE)], Types.ITEM.COIN, 1, 0))
+			recipes.append(Recipe.new([InventoryItem.new(Types.ITEM.BREAD)], Types.ITEM.COIN, 4, 0))
 			return Factory.new(type, recipes)
 	return null
