@@ -11,6 +11,7 @@ const GROUP_WAIT_HUD = "WAIT_HUD"
 const GROUP_QUEST_HUD = "QUEST_HUD"
 const GROUP_EXIT_HUD = "EXIT_HUD"
 const MAP_CUSTOM_DATA_HORSE_STOP = "stable"
+const MAP_CUSTOM_DATA_PATH = "path"
 const HORSE_TIRED_COOLDOWN: int = 60 * 4
 const MAP_PADDING: int = 64
 const DEFAULT_LEVEL_MAP_ID: int = 0

@@ -51,22 +51,22 @@ func update_title():
 	var type: Types.POI_TYPES = GameService.get_poi_by_id(id).type
 	factory_title.text = Types.get_poi_name_by_type(type)
 
-func get_factory(id):
-	var config: Factory = GameService.get_poi_by_id(id)
+func get_factory(poi_id: Vector2i):
+	var config: Factory = GameService.get_poi_by_id(poi_id)
 	if config == null or config.action_type != Types.POI_GROUP_TYPE.FACTORY:
 		return null
 	return config
 
-func create_recipe_list(id: Vector2i):
+func create_recipe_list(poi_id: Vector2i):
 	for child in recipe_container.get_children():
 		recipe_container.remove_child(child)
-	var config = get_factory(id)
+	var config = get_factory(poi_id)
 	if config == null:
 		return
 	for recipe in config.recipes:
 		var inst = RECIPE.instantiate()
 		inst.recipe = recipe
-		inst.poi_id = id
+		inst.poi_id = poi_id
 		recipe_container.add_child(inst)
 
 func update_output_list(poi_id: Vector2i):

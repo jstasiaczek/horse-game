@@ -100,6 +100,15 @@ func _unhandled_input(event):
 	handle_hover_cell(event)
 	handle_click_cell(event)
 
+func is_tile_horse_stop(tile_data: TileData) -> bool:
+	return tile_data != null and tile_data.get_custom_data(GameService.MAP_CUSTOM_DATA_HORSE_STOP)
+
+func is_tile_path(tile_data: TileData) -> bool:
+	return tile_data != null and tile_data.get_custom_data(GameService.MAP_CUSTOM_DATA_PATH)
+
+func is_tile_clickable(tile_data: TileData) -> bool:
+	return is_tile_horse_stop(tile_data) or is_tile_path(tile_data)
+
 func handle_click_cell(event):
 	if !(event is InputEventMouseButton):
 		return
@@ -108,7 +117,7 @@ func handle_click_cell(event):
 	if event.pressed:
 		var clicked_cell = tile_map.local_to_map(get_global_mouse_position())
 		var tile_data: TileData = tile_map.get_cell_tile_data(Types.MAP_LAYERS.PATH, clicked_cell)
-		if tile_data != null and tile_data.get_custom_data(GameService.MAP_CUSTOM_DATA_HORSE_STOP):
+		if is_tile_clickable(tile_data):
 			tile_map.set_cell(Types.MAP_LAYERS.HOVER, prev_hover_cell, 0, Vector2i(10,16))
 			SignalsService.on_set_target.emit(clicked_cell)
 			if GameService.get_horse_map_id() == clicked_cell:
@@ -116,8 +125,8 @@ func handle_click_cell(event):
 	elif not event.pressed:
 		var clicked_cell = tile_map.local_to_map(get_global_mouse_position())
 		var tile_data: TileData = tile_map.get_cell_tile_data(Types.MAP_LAYERS.PATH, clicked_cell)
-		if tile_data != null and tile_data.get_custom_data(GameService.MAP_CUSTOM_DATA_HORSE_STOP):
-			tile_map.set_cell(Types.MAP_LAYERS.HOVER, prev_hover_cell, 0, Vector2i(9,16))
+		if is_tile_clickable(tile_data):
+			tile_map.set_cell(Types.MAP_LAYERS.HOVER, prev_hover_cell, 0, Vector2i(9,16) if is_tile_horse_stop(tile_data) else Vector2i(9,15))
 
 func handle_hover_cell(event):
 	if !(event is InputEventMouseMotion):
@@ -132,7 +141,7 @@ func handle_hover_cell(event):
 		SignalsService.on_poi_hover.emit(Types.POI_TYPES.NONE, hover_cell)
 	else:
 		prev_hover_cell = hover_cell
-		if tile_data.get_custom_data(GameService.MAP_CUSTOM_DATA_HORSE_STOP) == true:
+		if is_tile_horse_stop(tile_data) == true:
 			tile_map.set_cell(Types.MAP_LAYERS.HOVER, prev_hover_cell, 0, Vector2i(9,16))
 			var poi = GameService.get_poi_by_id(hover_cell)
 			if poi != null:
