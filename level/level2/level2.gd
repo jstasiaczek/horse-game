@@ -18,7 +18,6 @@ func _ready():
 	GameService.load_tilemap(underground_map, HORSE_START_MAP_ID, true)
 	SignalsService.on_background_sound_change.emit(Types.BACKGROUND_SOUND.CAVE)
 	explosion.visible = false
-	GameService.add_to_inventory(Types.ITEM.TNT)
 
 func switch_map(is_underground: bool = false):
 	base_map.visible = not is_underground
