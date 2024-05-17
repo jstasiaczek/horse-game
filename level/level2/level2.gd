@@ -2,9 +2,12 @@ extends Node2D
 @onready var base_map = $BaseMap
 @onready var underground_map = $Underground/UndergroundMap
 @onready var underground = $Underground
+@onready var audio_player = $audio_player
+@onready var explosion = $explosion
 
+const ROCK_BREAK = preload("res://assets/sounds/rock_break.mp3")
+const CAVE_EXPLOSION = preload("res://assets/sounds/cave_explosion.mp3")
 const UNDERGROUND_MAP_ID: int = 1
-
 const HORSE_START_MAP_ID: Vector2i = Vector2i(7,6)
 
 func _ready():
@@ -14,6 +17,8 @@ func _ready():
 	GameService.set_current_level_map_id(UNDERGROUND_MAP_ID)
 	GameService.load_tilemap(underground_map, HORSE_START_MAP_ID, true)
 	SignalsService.on_background_sound_change.emit(Types.BACKGROUND_SOUND.CAVE)
+	explosion.visible = false
+	GameService.add_to_inventory(Types.ITEM.TNT)
 
 func switch_map(is_underground: bool = false):
 	base_map.visible = not is_underground
@@ -106,6 +111,11 @@ func create_quests(pois: Dictionary):
 		[InventoryItem.new(Types.ITEM.TNT, 1)],
 		"It worked, the road is clear.",
 		func ():
+			audio_player.stream = CAVE_EXPLOSION
+			SignalsService.on_camera_shake.emit(8.0)
+			audio_player.play()
+			explosion.visible = true
+			explosion.play("default")
 			var tilemap: TileMap = GameService.get_tilemap()
 			tilemap.set_cell(Types.MAP_LAYERS.BUILDINGS, Vector2i(38, 16))
 			tilemap.set_cell(Types.MAP_LAYERS.BUILDINGS, Vector2i(39, 16))
@@ -122,6 +132,8 @@ func create_quests(pois: Dictionary):
 		[InventoryItem.new(Types.ITEM.PICKAXE, 1)],
 		"It was hard work, the road is clear.",
 		func ():
+			audio_player.stream = ROCK_BREAK
+			audio_player.play()
 			var tilemap: TileMap = GameService.get_tilemap()
 			tilemap.set_cell(Types.MAP_LAYERS.BUILDINGS, Vector2i(35, 12))
 			tilemap.set_cell(Types.MAP_LAYERS.PATH, Vector2i(35, 13), 0, Vector2i(3,52))
@@ -183,3 +195,7 @@ func create_passages(pois: Dictionary):
 		GameService.change_level_map(underground_map, Vector2i(43,16), UNDERGROUND_MAP_ID, true)
 		SignalsService.on_background_sound_change.emit(Types.BACKGROUND_SOUND.CAVE)
 	)
+
+
+func _on_explosion_animation_finished():
+	explosion.visible = false

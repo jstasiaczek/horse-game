@@ -3,8 +3,34 @@ extends Camera2D
 var drag_start_pos: Vector2
 var is_drag: bool = false
 
+var decay: float = 0.8  # How quickly the shaking stops [0, 1].
+var max_offset: Vector2i = Vector2i(50, 50)  # Maximum hor/ver shake in pixels.
+var max_roll: float = 0.1  # Maximum rotation in radians (use sparingly).
+var trauma: float = 0.0  # Current shake strength.
+var trauma_power: float = 2.0  # Trauma exponent. Use [2, 3].
+
+
 func _ready():
 	SignalsService.on_set_horse_map_id.connect(on_set_horse_map_id)
+	SignalsService.on_camera_shake.connect(on_camera_shake)
+	randomize()
+
+func on_camera_shake(duration: float):
+	add_trauma(duration)
+
+func _process(delta):
+	if trauma > 0:
+		trauma = max(trauma - decay * delta, 0)
+		shake()
+
+func shake():
+	var amount: float = pow(trauma, trauma_power)
+	rotation = max_roll * amount * randf_range(-1.0, 1.0)
+	offset.x = max_offset.x * amount * randf_range(-1.0, 1.0)
+	offset.y = max_offset.y * amount * randf_range(-1.0, 1.0)
+
+func add_trauma(amount: float):
+	trauma = min(trauma + amount, 1.0)
 
 func on_set_horse_map_id(id: Vector2i):
 	var map: TileMap = GameService.get_tilemap()

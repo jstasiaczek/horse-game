@@ -1,13 +1,107 @@
-[gd_scene load_steps=4 format=3 uid="uid://bo2urt2xfbwmx"]
+[gd_scene load_steps=18 format=3 uid="uid://bo2urt2xfbwmx"]
 
 [ext_resource type="Script" path="res://level/level2/level2.gd" id="1_r3keg"]
 [ext_resource type="TileSet" uid="uid://c6x6rwf0lmp2q" path="res://level/tileset.tres" id="2_bxxpe"]
 [ext_resource type="Texture2D" uid="uid://nhlumsf5il7g" path="res://assets/bg_black.png" id="3_yjhi1"]
+[ext_resource type="Texture2D" uid="uid://c44se0nm6wiab" path="res://assets/explosion_32.png" id="4_gjbjx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rpt0x"]
+atlas = ExtResource("4_gjbjx")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dislc"]
+atlas = ExtResource("4_gjbjx")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6f18k"]
+atlas = ExtResource("4_gjbjx")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rsm8a"]
+atlas = ExtResource("4_gjbjx")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s6piv"]
+atlas = ExtResource("4_gjbjx")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hoh88"]
+atlas = ExtResource("4_gjbjx")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_376kq"]
+atlas = ExtResource("4_gjbjx")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v4g3k"]
+atlas = ExtResource("4_gjbjx")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uypd2"]
+atlas = ExtResource("4_gjbjx")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_liyj1"]
+atlas = ExtResource("4_gjbjx")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h2o3e"]
+atlas = ExtResource("4_gjbjx")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rq8wr"]
+atlas = ExtResource("4_gjbjx")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3ax8h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rpt0x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dislc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6f18k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rsm8a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s6piv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hoh88")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_376kq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v4g3k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uypd2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_liyj1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h2o3e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rq8wr")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
 
 [node name="Level2" type="Node2D"]
 script = ExtResource("1_r3keg")
 
 [node name="BaseMap" type="TileMap" parent="."]
+visible = false
 tile_set = ExtResource("2_bxxpe")
 format = 2
 layer_0/name = "water"
@@ -25,7 +119,6 @@ layer_6/name = "hover"
 layer_6/tile_data = PackedInt32Array()
 
 [node name="Underground" type="Node2D" parent="."]
-visible = false
 
 [node name="Sprite2D" type="Sprite2D" parent="Underground"]
 texture = ExtResource("3_yjhi1")
@@ -49,3 +142,11 @@ layer_6/tile_data = PackedInt32Array()
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Underground"]
 color = Color(0.454902, 0.454902, 0.454902, 1)
+
+[node name="audio_player" type="AudioStreamPlayer" parent="."]
+
+[node name="explosion" type="AnimatedSprite2D" parent="."]
+position = Vector2(626, 266)
+sprite_frames = SubResource("SpriteFrames_3ax8h")
+
+[connection signal="animation_finished" from="explosion" to="." method="_on_explosion_animation_finished"]
