@@ -1,5 +1,7 @@
 extends TileMap
 
+@onready var player = $player
+
 const HORSE_START_MAP_ID: Vector2i = Vector2i(4,4)
 
 func _ready():
@@ -9,6 +11,7 @@ func _ready():
 
 func create_quest():
 	var action: Callable = func ():
+		SoundService.play(player, SoundService.SOUND_TYPE.WOOD_WORKING)
 		var tilemap: TileMap = GameService.get_tilemap()
 		tilemap.set_cell(Types.MAP_LAYERS.BUILDINGS, Vector2i(35, 10))
 		tilemap.set_cell(Types.MAP_LAYERS.PATH, Vector2i(35, 10), 0, Vector2i(8,35))
@@ -16,7 +19,7 @@ func create_quest():
 	return Quest.new(
 		"The Bridge",
 		"The bridge was destroyed in the storm, we can repair it, but we need some resources.",
-		[InventoryItem.new(Types.ITEM.WOOD, 10), InventoryItem.new(Types.ITEM.BREAD, 1)],
+		[InventoryItem.new(Types.ITEM.WOOD, 4), InventoryItem.new(Types.ITEM.BREAD, 1)],
 		"Thank you for your help, the bridge is fixed.",
 		action,
 	)

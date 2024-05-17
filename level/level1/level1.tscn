@@ -42,3 +42,5 @@ texture = ExtResource("5_es4ns")
 [node name="Cloud3" type="Sprite2D" parent="."]
 position = Vector2(751, 301)
 texture = ExtResource("6_mhpeh")
+
+[node name="player" type="AudioStreamPlayer" parent="."]

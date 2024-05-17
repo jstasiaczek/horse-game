@@ -18,6 +18,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Types="*res://service/types.gd"
+SoundService="*res://service/sound_service.gd"
 SignalsService="*res://service/signals_service.gd"
 GameService="*res://service/game_service.gd"
 PathService="*res://service/path_service.gd"

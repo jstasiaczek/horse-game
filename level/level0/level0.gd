@@ -11,11 +11,14 @@ const STOP_QUEST_CODE: String = "[img]res://assets/icons/stop-quest.png[/img]"
 @onready var marker_1 = $Markers/Marker1
 @onready var marker_2 = $Markers/Marker2
 @onready var marker_3 = $Markers/Marker3
+@onready var player = $player
+@onready var explosion = $explosion
 
 func _ready():
 	create_level_pois()
 	GameService.reset_level(7)
 	GameService.load_tilemap(self, HORSE_START_MAP_ID)
+	explosion.visible = false
 
 func create_level_pois():
 	var pois: Dictionary = {}
@@ -64,6 +67,9 @@ func create_quest3() -> Quest:
 	)
 
 func quest3_action():
+	SoundService.play(player, SoundService.SOUND_TYPE.EXPLOSION)
+	explosion.play("default")
+	SignalsService.on_camera_shake.emit(4.0)
 	var tilemap: TileMap = GameService.get_tilemap()
 	tilemap.set_cell(Types.MAP_LAYERS.BUILDINGS, Vector2i(41,16))
 	tilemap.set_cell(Types.MAP_LAYERS.PATH, Vector2i(41,15), 0, Vector2i(3, 52))
@@ -86,6 +92,7 @@ func create_quest2() -> Quest:
 	)
 
 func quest2_action():
+	SoundService.play(player, SoundService.SOUND_TYPE.WOOD_WORKING)
 	var tilemap: TileMap = GameService.get_tilemap()
 	GameService.add_to_inventory(Types.ITEM.APPLE, 1)
 	tilemap.set_cell(Types.MAP_LAYERS.BUILDINGS, Vector2i(36,7))
@@ -107,9 +114,14 @@ func create_quest1() -> Quest:
 	)
 
 func quest1_action():
+	SoundService.play(player, SoundService.SOUND_TYPE.WOOD_WORKING)
 	var tilemap: TileMap = GameService.get_tilemap()
 	tilemap.set_cell(Types.MAP_LAYERS.BUILDINGS, Vector2i(18,7))
 	tilemap.set_cell(Types.MAP_LAYERS.PATH, Vector2i(18,7), 0, Vector2i(8, 35))
 	PathService.update_path(tilemap.get_used_cells(Types.MAP_LAYERS.PATH))
 	marker_1.visible = false
 	marker_2.visible = true
+
+
+func _on_explosion_animation_finished():
+	explosion.visible = false

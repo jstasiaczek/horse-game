@@ -15,4 +15,5 @@ The game is about processing and distributing goods and completing quests.
 * "Cheerful Chirping Of Birds_Nature Sound" from https://pixabay.com/sound-effects/search/birds-chirping/
 * Spring cave by newlocknew -- https://freesound.org/s/559081/ -- License: Attribution 4.0
 * Mining Pick by spookymodem -- https://opengameart.org/content/mining-pick 
+* Pixel Explosion (12 Frames) by JROB774 -- https://opengameart.org/content/pixel-explosion-12-frames
 * plus some done by myself
