@@ -1,0 +1,73 @@
+[gd_scene load_steps=6 format=3 uid="uid://c14ar03k8uobt"]
+
+[ext_resource type="Script" path="res://scene/info_hud/info_hud.gd" id="1_73p1q"]
+[ext_resource type="PackedScene" uid="uid://hgdt3dgeglw2" path="res://scene/wood_panel/wood_panel.tscn" id="2_d6ob4"]
+[ext_resource type="PackedScene" uid="uid://cbkgphmqi2wg7" path="res://scene/long_button/long_button.tscn" id="3_k4nka"]
+[ext_resource type="LabelSettings" uid="uid://ci1knydkctqb7" path="res://scene/factory_hud/mc_title_32_white.tres" id="4_ld7uw"]
+[ext_resource type="FontFile" uid="uid://cialo7t5a5hue" path="res://assets/fonts/Minecraft.ttf" id="5_tl4sr"]
+
+[node name="InfoHud" type="Control" groups=["INFO_HUD"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_73p1q")
+
+[node name="CC" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WoodPanel" parent="CC" instance=ExtResource("2_d6ob4")]
+custom_minimum_size = Vector2(500, 300)
+layout_mode = 2
+
+[node name="MC" type="MarginContainer" parent="CC/WoodPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="HB" type="HBoxContainer" parent="CC/WoodPanel/MC"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="StayButton" parent="CC/WoodPanel/MC/HB" instance=ExtResource("3_k4nka")]
+layout_mode = 2
+button_color = 1
+label_text = "Close"
+
+[node name="VB" type="VBoxContainer" parent="CC/WoodPanel/MC"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TitleLabel" type="Label" parent="CC/WoodPanel/MC/VB"]
+layout_mode = 2
+text = "Finished!"
+label_settings = ExtResource("4_ld7uw")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DescLabel" type="RichTextLabel" parent="CC/WoodPanel/MC/VB"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("5_tl4sr")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "[center]Hello this is horse[/center]"
+
+[connection signal="pressed" from="CC/WoodPanel/MC/HB/StayButton" to="." method="_on_stay_button_pressed"]

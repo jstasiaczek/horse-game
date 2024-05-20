@@ -5,8 +5,9 @@ const FALLING_ROCKS = preload("res://assets/sounds/falling_rocks.mp3")
 const ROCK_BREAK = preload("res://assets/sounds/rock_break.mp3")
 const WOOD_WORKING = preload("res://assets/sounds/wood_working.mp3")
 const EXPLOSION = preload("res://assets/sounds/explosion.mp3")
+const ACHIEVEMENT = preload("res://assets/sounds/achievement.mp3")
 
-enum SOUND_TYPE { FALLING_ROCKS, EXPLOSION, EXPLOSION_CAVE, PICKAXE_ROCKS, WOOD_WORKING }
+enum SOUND_TYPE { ACHIEVEMENT, FALLING_ROCKS, EXPLOSION, EXPLOSION_CAVE, PICKAXE_ROCKS, WOOD_WORKING }
 
 func play(player: AudioStreamPlayer, type: SOUND_TYPE):
 	match type:
@@ -24,4 +25,7 @@ func play(player: AudioStreamPlayer, type: SOUND_TYPE):
 			player.play()
 		SOUND_TYPE.EXPLOSION:
 			player.stream = EXPLOSION
+			player.play()
+		SOUND_TYPE.ACHIEVEMENT:
+			player.stream = ACHIEVEMENT
 			player.play()

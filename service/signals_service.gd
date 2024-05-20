@@ -31,6 +31,8 @@ signal on_factory_output_update(id: Vector2i)
 signal on_inventory_update
 
 # gui signals
+signal on_info_hud_open(title: String, desc: String)
+signal on_info_hud_close
 signal on_factory_gui_close(id: Vector2i)
 signal on_quest_gui_close(id: Vector2i)
 signal on_exit_gui_close(id: Vector2i)

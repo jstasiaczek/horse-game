@@ -14,6 +14,8 @@ const STOP_QUEST_CODE: String = "[img]res://assets/icons/stop-quest.png[/img]"
 @onready var player = $player
 @onready var explosion = $explosion
 
+var secret1_found: bool = false
+
 func _ready():
 	create_level_pois()
 	GameService.reset_level(7)
@@ -23,6 +25,13 @@ func _ready():
 func create_level_pois():
 	var pois: Dictionary = {}
 	pois[POI.id3(Vector2i(10,6))] = create_quest1()
+	pois[POI.id3(Vector2i(10,9))] = Callback.new(func ():
+		if secret1_found == false:
+			GameService.add_to_inventory(Types.ITEM.BREAD)	
+			secret1_found = true
+			SoundService.play(player, SoundService.SOUND_TYPE.ACHIEVEMENT)
+			SignalsService.on_info_hud_open.emit("Secret!", "You found a bread!")
+	)
 	pois[POI.id3(Vector2i(24,9))] = create_quest2()
 	pois[POI.id3(Vector2i(42,7))] = create_quest3()
 	var market: Factory = GameService.create_default_factory(Types.POI_TYPES.MARKET)
@@ -68,6 +77,7 @@ func create_quest3() -> Quest:
 
 func quest3_action():
 	SoundService.play(player, SoundService.SOUND_TYPE.EXPLOSION)
+	explosion.visible = true
 	explosion.play("default")
 	SignalsService.on_camera_shake.emit(4.0)
 	var tilemap: TileMap = GameService.get_tilemap()
