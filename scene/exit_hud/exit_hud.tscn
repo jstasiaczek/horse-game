@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cx5hcoa4gy1bv"]
+[gd_scene load_steps=7 format=3 uid="uid://cx5hcoa4gy1bv"]
 
 [ext_resource type="PackedScene" uid="uid://hgdt3dgeglw2" path="res://scene/wood_panel/wood_panel.tscn" id="1_cnmn6"]
 [ext_resource type="Script" path="res://scene/exit_hud/exit_hud.gd" id="1_pu8hg"]
 [ext_resource type="PackedScene" uid="uid://cbkgphmqi2wg7" path="res://scene/long_button/long_button.tscn" id="2_hgvkq"]
 [ext_resource type="LabelSettings" uid="uid://ci1knydkctqb7" path="res://scene/factory_hud/mc_title_32_white.tres" id="3_qi3h4"]
 [ext_resource type="FontFile" uid="uid://cialo7t5a5hue" path="res://assets/fonts/Minecraft.ttf" id="4_t21ev"]
+[ext_resource type="LabelSettings" uid="uid://dkq3wlncuhvvb" path="res://assets/mc_smal_text_white.tres" id="6_3bv5j"]
 
 [node name="ExitHud" type="Control" groups=["EXIT_HUD"]]
 layout_mode = 3
@@ -73,6 +74,20 @@ theme_override_fonts/normal_font = ExtResource("4_t21ev")
 theme_override_font_sizes/normal_font_size = 24
 bbcode_enabled = true
 text = "[center]Hello this is horse[/center]"
+
+[node name="LevelTime" type="Label" parent="CC/WoodPanel/MC/VB"]
+layout_mode = 2
+text = "Time elapse 12s"
+label_settings = ExtResource("6_3bv5j")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SecretLabel" type="Label" parent="CC/WoodPanel/MC/VB"]
+layout_mode = 2
+text = "Secrets found 0/0"
+label_settings = ExtResource("6_3bv5j")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="CC/WoodPanel/MC/HB/StayButton" to="." method="_on_stay_button_pressed"]
 [connection signal="pressed" from="CC/WoodPanel/MC/HB/NextButton" to="." method="_on_next_button_pressed"]

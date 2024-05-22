@@ -6,14 +6,14 @@ const SCENE_LEVEL_SELECTION = preload("res://scene/level_selection_gui/level_sel
 const MAX_ZOOM: float = 2.0
 const MIN_ZOOM: float = 1.5
 const MINUTES_ADD_ON_TICK: int = 10
-const GROUP_FACTORY_GUI: String = "FACTORY_GUI"
-const GROUP_WAIT_HUD = "WAIT_HUD"
-const GROUP_QUEST_HUD = "QUEST_HUD"
-const GROUP_EXIT_HUD = "EXIT_HUD"
-const GROUP_INFO_HUD = "INFO_HUD"
-const MAP_CUSTOM_DATA_HORSE_STOP = "stable"
-const MAP_CUSTOM_DATA_PATH = "path"
-const MAP_CUSTOM_DATA_HIDDEN_PATH = "hidden_path"
+const GROUP_FACTORY_GUI: StringName = "FACTORY_GUI"
+const GROUP_WAIT_HUD: StringName = "WAIT_HUD"
+const GROUP_QUEST_HUD: StringName = "QUEST_HUD"
+const GROUP_EXIT_HUD: StringName = "EXIT_HUD"
+const GROUP_INFO_HUD: StringName = "INFO_HUD"
+const MAP_CUSTOM_DATA_HORSE_STOP: StringName = "stable"
+const MAP_CUSTOM_DATA_PATH: StringName = "path"
+const MAP_CUSTOM_DATA_HIDDEN_PATH: StringName = "hidden_path"
 const HORSE_TIRED_COOLDOWN: int = 60 * 4
 const MAP_PADDING: int = 64
 const DEFAULT_LEVEL_MAP_ID: int = 0
@@ -28,6 +28,10 @@ var _horse_inventory: Array[InventoryItem] = []
 var _horse_tired: int = 0
 var _level_path: String = ""
 var _current_level_map_id: int = DEFAULT_LEVEL_MAP_ID
+var _level_start_time: int = 0
+var _level_end_time: int = 0
+var _level_secret_max: int = 0
+var _level_secret_found: int = 0
 
 func _ready():
 	SignalsService.on_time_tick.connect(on_time_tick)
@@ -36,6 +40,37 @@ func _ready():
 
 func on_time_tick():
 	time.add_minutes(MINUTES_ADD_ON_TICK)
+
+func set_level_secret_max(value: int):
+	_level_secret_max = value
+
+func get_level_secret_max() -> int:
+	return _level_secret_max
+
+func set_level_start_time(value: int):
+	_level_start_time = value
+
+func set_level_secret_found(value: int):
+	_level_secret_found = value
+
+func add_level_secret_found(value: int):
+	_level_secret_found += value
+
+
+func get_level_secret_found() -> int:
+	return _level_secret_found
+
+func get_level_start_time() -> int:
+	return _level_start_time
+
+func set_level_end_time(value: int):
+	_level_end_time = value
+
+func get_level_time() -> int:
+	return get_level_end_time() - get_level_start_time()
+
+func get_level_end_time() -> int:
+	return _level_end_time
 
 func on_time_changed():
 	for poi_id3 in get_pois().keys():
@@ -137,11 +172,14 @@ func set_tilemap(value: TileMap):
 func get_tilemap() -> TileMap:
 	return _tilemap_instance
 
-func reset_level(start_hour: int):
+func reset_level(start_hour: int, level_secret_max: int = 0):
 	GameService.time.clear()
 	GameService.reset_current_level_map_id()
 	GameService.time.add_hours(start_hour)
 	GameService.clear_inventory()
+	GameService.set_level_start_time(int(Time.get_unix_time_from_system()))
+	GameService.set_level_end_time(0)
+	GameService.set_level_secret_max(level_secret_max)
 
 func load_tilemap(tilemap: TileMap, horse_pos: Vector2i, is_dark: bool = false):
 	GameService.set_tilemap(tilemap)

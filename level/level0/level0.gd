@@ -18,7 +18,7 @@ var secret1_found: bool = false
 
 func _ready():
 	create_level_pois()
-	GameService.reset_level(7)
+	GameService.reset_level(7, 1)
 	GameService.load_tilemap(self, HORSE_START_MAP_ID)
 	explosion.visible = false
 
@@ -30,6 +30,7 @@ func create_level_pois():
 			GameService.add_to_inventory(Types.ITEM.BREAD)	
 			secret1_found = true
 			SoundService.play(player, SoundService.SOUND_TYPE.ACHIEVEMENT)
+			GameService.add_level_secret_found(1)
 			SignalsService.on_info_hud_open.emit("Secret!", "You found a bread!")
 	)
 	pois[POI.id3(Vector2i(24,9))] = create_quest2()
